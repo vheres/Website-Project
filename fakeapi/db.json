@@ -1,0 +1,190 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "Baron",
+      "password": "12345",
+      "email": "B@ron.com",
+      "cart": [
+        {
+          "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+          "name": "Sepatu Cantik 1",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+          "price": "100000",
+          "category": "WSneakers",
+          "id": 1
+        },
+        {
+          "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+          "name": "Sepatu Cantik 1",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+          "price": "100000",
+          "category": "WSneakers",
+          "id": 2
+        },
+        {
+          "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+          "name": "Sepatu Cantik 1",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+          "price": "100000",
+          "category": "WSneakers",
+          "id": 3
+        },
+        {
+          "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+          "name": "Sepatu Cantik",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+          "price": "100000",
+          "category": "WSneakers"
+        },
+        {
+          "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+          "name": "Sepatu Cantik",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+          "price": "100000",
+          "category": "WSneakers"
+        },
+        {
+          "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+          "name": "Sepatu Cantik",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+          "price": "100000",
+          "category": "WSneakers"
+        },
+        {
+          "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+          "name": "Sepatu Cantik",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+          "price": "100000",
+          "category": "WSneakers"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "username": "Samson",
+      "email": "S@amson.com",
+      "password": "12345",
+      "cart": []
+    },
+    {
+      "id": 3,
+      "username": "Billy",
+      "email": "Billy@Billy.com",
+      "password": "12345",
+      "cart": []
+    },
+    {
+      "username": "Yohanes",
+      "email": "william.gunawan@live.com",
+      "password": "halo123",
+      "id": 4,
+      "cart": []
+    },
+    {
+      "username": "Aithne",
+      "email": "best@hunter.com",
+      "password": "12345",
+      "cart": [],
+      "id": 5
+    }
+  ],
+  "catalog": [
+    {
+      "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+      "name": "Sepatu Cantik",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+      "price": "100000",
+      "category": "WSneakers",
+      "id": 1
+    },
+    {
+      "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+      "name": "Sepatu Cantik 1",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+      "price": "100000",
+      "category": "WSneakers",
+      "id": 2
+    },
+    {
+      "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+      "name": "Sepatu Cantik 1",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+      "price": "100000",
+      "category": "WSneakers",
+      "id": 3
+    },
+    {
+      "id": 4,
+      "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+      "name": "Sepatu Cantik 2",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+      "price": "100000",
+      "category": "WSneakers"
+    },
+    {
+      "id": 5,
+      "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+      "name": "Baju Cantik 1",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+      "price": "100000",
+      "category": "WDresses"
+    },
+    {
+      "id": 6,
+      "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+      "name": "Baju Cantik 2",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+      "price": "100000",
+      "category": "WDresses"
+    },
+    {
+      "id": 7,
+      "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+      "name": "Baju Keren 1",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+      "price": "100000",
+      "category": "MShirts"
+    },
+    {
+      "id": 8,
+      "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+      "name": "Baju Keren 2",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+      "price": "100000",
+      "category": "MShirts"
+    },
+    {
+      "id": 9,
+      "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+      "name": "Tas Simpel 1",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+      "price": "100000",
+      "category": "Handbags"
+    },
+    {
+      "id": 10,
+      "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+      "name": "Tas Simpel 2",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+      "price": "100000",
+      "category": "MShoes"
+    },
+    {
+      "id": 11,
+      "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+      "name": "Sepatu Keren",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+      "price": "100000",
+      "category": "Handbags"
+    },
+    {
+      "id": 12,
+      "link": "http://themes.rokaux.com/unishop/v3.0/template-1/img/shop/single/01.jpg",
+      "name": "Kacamata gaya",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut odio ex, viverra ut ultrices eget, fermentum sit amet dui.",
+      "price": "100000",
+      "category": "Glasses"
+    }
+  ]
+}
