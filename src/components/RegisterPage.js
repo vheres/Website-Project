@@ -1,31 +1,27 @@
 import React, { Component } from 'react';
-import Carouselclass from './Carousel';
-import LinkedImage from './LinkedImage';
-import Featured from './Featured';
-import SubFooter from './SubFooter';
-import Filter from './Filter';
-import Pagination from './Pagination';
-import StarRating from './StarRating';
-import ParamwLabel from './ParamwLabel';
-import Param from './Param';
-import { Grid, Row, Col, PageHeader, Button, DropdownButton, MenuItem, FormGroup, ControlLabel, Image, Form, FormControl, Checkbox } from 'react-bootstrap';
+import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
 
 import { onRegister } from '../actions';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Cookies from 'universal-cookie';
 
 import img1 from '../assets/img/gallery/07.jpg';
-import rick from '../assets/rick.png';
-import rick2 from '../assets/rick2.jpg';
-import rick3 from '../assets/rick3.jpg';
+
+const cookies = new Cookies();
 
 class RegisterPage extends Component {
+    componentWillReceiveProps(newProps) {
+        if(newProps.auth.username !== "") {
+            cookies.set('myCookie', newProps.auth.email, { path: '/' })
+        }
+    }
+
     onRegisterClick = () => {
         this.props.onRegister({
             username: this.refs.username.value,
             email: this.refs.email.value,
             password: this.refs.password.value,
-            cart: []
         });
     }
 
@@ -53,20 +49,6 @@ class RegisterPage extends Component {
                                 <img src={img1} className="login-image"/>
                             </Col>
                             <Col xs={7}>
-                                {/* <form id="Login">
-                                    <div class="form-group">
-                                        <input type="username" ref="username" class="form-control" id="inputUsername" placeholder="Username" />
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="email" ref="email" class="form-control" id="inputEmail" placeholder="Email Address" />
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" ref="password" class="form-control" id="inputPassword" placeholder="Password" />
-                                    </div>
-                                    <div>
-                                        <input type="button" class="btn btn-primary" value="Register" onClick={this.onRegisterClick}/>
-                                    </div>
-                                </form> */}
                                 <form id="Login" className="login-form">
                                 <Row>
                                     <Col xs={2}>

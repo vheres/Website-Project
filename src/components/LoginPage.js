@@ -1,14 +1,5 @@
 import React, { Component } from 'react';
-import Carouselclass from './Carousel';
-import LinkedImage from './LinkedImage';
-import Featured from './Featured';
-import SubFooter from './SubFooter';
-import Filter from './Filter';
-import Pagination from './Pagination';
-import StarRating from './StarRating';
-import ParamwLabel from './ParamwLabel';
-import Param from './Param';
-import { Grid, Row, Col, PageHeader, Button, DropdownButton, MenuItem, FormGroup, ControlLabel, Image, Form, FormControl, Checkbox } from 'react-bootstrap';
+import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
 
 import { onLogin } from '../actions';
 import { Redirect } from 'react-router-dom';
@@ -17,9 +8,6 @@ import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
 
 import img1 from '../assets/img/gallery/07.jpg';
-import rick from '../assets/rick.png';
-import rick2 from '../assets/rick2.jpg';
-import rick3 from '../assets/rick3.jpg';
 
 const cookies = new Cookies();
 
@@ -39,7 +27,6 @@ class LoginPage extends Component {
 
     render() {
         console.log(this.props.auth)
-        console.log(this.props.cart);
         if(this.props.auth.username == "") {
             return(
                 <div>
@@ -102,10 +89,9 @@ class LoginPage extends Component {
 // Mengambil Global state menjadi property local
 const mapStateToProps = (state) => {
     const auth = state.auth;
-    const cart = state.cart;
 
     // return { users, auth };
-    return { auth, cart };
+    return { auth };
 }
 
 // export default connect(mapStateToProps, { onLoginSuccess })(LoginPage); //connect(jalur kiri (GS>COM) mapStateToProps, jalur kanan(COM>GS) ActionCreator)

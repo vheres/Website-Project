@@ -1,21 +1,12 @@
 import React, { Component } from 'react';
-import Carouselclass from './Carousel';
-import LinkedImage from './LinkedImage';
 import Featured from './Featured';
-import SubFooter from './SubFooter';
-import Filter from './Filter';
-import Pagination from './Pagination';
-import StarRating from './StarRating';
-import Param from './Param';
 import CartDetail from './CartDetail';
-import { Grid, Row, Col, PageHeader, Button, DropdownButton, MenuItem, FormGroup, ControlLabel } from 'react-bootstrap';
+import { Grid, Row, Col, PageHeader, Button } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import rick from '../assets/rick.png';
-import rick2 from '../assets/rick2.jpg';
-import rick3 from '../assets/rick3.jpg';
 
 class CartPage extends Component {
     renderItemList = () => {
@@ -26,7 +17,7 @@ class CartPage extends Component {
 
     render() {
         if (this.props.auth.cookieCheck === true) {
-        if (this.props.auth.username != "") {
+        if (this.props.auth.username !== "") {
             console.log(this.props.cart);
             return(
             <Grid fluid>

@@ -14,7 +14,7 @@ const cookies = new Cookies();
 class Header extends Component { //kalo gak pake destructuring, tulisnya React.Component
     componentWillMount() {
         const theCookie = cookies.get('myCookie');
-        if(theCookie != undefined) {
+        if(theCookie !== undefined) {
             this.props.keepLogin(theCookie);
         } 
         else {
@@ -34,7 +34,7 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
     }
 
     renderNavbar = () => {   
-        if(this.props.auth.username != "") {
+        if(this.props.auth.username !== "") {
             hello = "Hello, ";
             hello += this.props.auth.username;
             return(

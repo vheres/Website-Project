@@ -10,13 +10,13 @@ class Carouselclass extends Component{
             <div>
             <Carousel showThumbs= {this.props.thumbs} useKeyboardArrows= {true} infiniteLoop= {true} emulateTouch={true} autoPlay= {true} centerMode={true} centerSlidePercentage={this.props.percentage}>
                 <div>
-                    <img src={this.props.img1} alt="rick"/>
+                    <img src={this.props.img1} alt={this.props.name}/>
                 </div>
                 <div>
-                    <img src={this.props.img2} alt="rick2"/>
+                    <img src={this.props.img2} alt={this.props.name}/>
                 </div>
                 <div>
-                    <img src={this.props.img3} alt="rick3"/>
+                    <img src={this.props.img3} alt={this.props.name}/>
                 </div>
             </Carousel>
             </div>

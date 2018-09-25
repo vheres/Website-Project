@@ -2,8 +2,8 @@ const INITIAL_STATE = { cart: ""}
 
 export default (state = INITIAL_STATE, action ) => {
     switch(action.type) {
-        case "USER_LOGIN_SUCCESS" :
-            return action.payload.cart;
+        // case "USER_LOGIN_SUCCESS" :
+        //     return action.payload.cart;
         case "USER_LOGOUT" :
             return INITIAL_STATE;
         case "USER_ADD_TO_CART" :

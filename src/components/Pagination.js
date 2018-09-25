@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
-import Carouselclass from './Carousel';
-import LinkedImage from './LinkedImage';
-import Featured from './Featured';
-import SubFooter from './SubFooter';
-import { Grid, Row, Col, PageHeader, Pagination  } from 'react-bootstrap';
+import { Pagination } from 'react-bootstrap';
 
-import rick from '../assets/rick.png';
-import rick2 from '../assets/rick2.jpg';
-import rick3 from '../assets/rick3.jpg';
 
 class Catalog extends Component {
     render() {

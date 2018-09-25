@@ -3,7 +3,6 @@ import Carouselclass from './Carousel';
 import LinkedImage from './LinkedImage';
 import Featured from './Featured';
 import SubFooter from './SubFooter';
-import Filter from './Filter';
 import Pagination from './Pagination';
 import StarRating from './StarRating';
 import Param from './Param';

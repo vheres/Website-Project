@@ -6769,7 +6769,7 @@ button.close {
 }
 .item-detail {
   /* width: fit-content; */
-  height: 400px;
+  height: 330px;
 }
 .item-text-detail {
   padding-left: 10px;
@@ -6802,6 +6802,11 @@ button.close {
 }
 .pill-detail {
   background-color: rgb(43, 214, 236);
+}
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 

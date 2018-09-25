@@ -1,18 +1,6 @@
 import React, { Component } from 'react';
-import Carouselclass from './Carousel';
-import LinkedImage from './LinkedImage';
-import Featured from './Featured';
-import SubFooter from './SubFooter';
-import Filter from './Filter';
-import Pagination from './Pagination';
-import StarRating from './StarRating';
 import ParamwLabel from './ParamwLabel';
-import Param from './Param';
-import { Grid, Row, Col, PageHeader, Button, DropdownButton, MenuItem, FormGroup, ControlLabel, Image } from 'react-bootstrap';
-
-import rick from '../assets/rick.png';
-import rick2 from '../assets/rick2.jpg';
-import rick3 from '../assets/rick3.jpg';
+import { Row, Col, Image } from 'react-bootstrap';
 
 class CartDetail extends Component {
     render() {

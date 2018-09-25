@@ -1,16 +1,5 @@
 import React, { Component } from 'react';
-import Carouselclass from './Carousel';
-import LinkedImage from './LinkedImage';
-import Featured from './Featured';
-import SubFooter from './SubFooter';
-import Filter from './Filter';
-import Pagination from './Pagination';
-import Rating from 'react-rating';
-import { Grid, Row, Col, PageHeader, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
-
-import rick from '../assets/rick.png';
-import rick2 from '../assets/rick2.jpg';
-import rick3 from '../assets/rick3.jpg';
+import { FormGroup, FormControl } from 'react-bootstrap';
 
 class ParamwLabel extends Component {
     render() {
