@@ -8,10 +8,32 @@ import { connect } from 'react-redux';
 import AdminInput from './AdminInput';
 
 class AdminPage extends Component {
-    state = { items: [], brand: [], color: [], color_count: "", size: [], size_count: ""}
+    state = { items: [], distinct_items: [], brand: [], color: [], color_count: "", size: [], size_count: "", table_list: [], table_pick: ""}
 
     componentWillMount() {
+        this.getTableList();
         this.getInventoryList();
+        this.changeTable();
+    }
+
+    getTableList() {
+        axios.get(API_URL_1 + "/table_list")
+            .then(item => {
+                this.setState({table_list:item.data.table_list})
+                console.log(this.state.table_list)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        }
+
+    getInventoryList() {
+        axios.get(API_URL_1 + "/inventory")
+            .then(item => {
+                this.setState({ items: item.data.listInventory, brand: item.data.listBrand, color: item.data.listColor, size: item.data.listSize, color_count: item.data.color_count[0].total, size_count: item.data.size_count[0].total, distinct_items:item.data.distinct_items })})
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     onInputClick = () => {
@@ -27,6 +49,50 @@ class AdminPage extends Component {
             alert("Input Success!");
             console.log(response);
             this.setState({ items: response.data.listInventory })
+        })
+    }
+    onInputBrand = () => {
+        axios.post(API_URL_1 + '/brand', {
+            name: this.refs.new_brand.value
+        })
+        .then((response) => {
+            alert("Input Brand Success!")
+            this.setState({ brand: response.data.listBrand })
+        })
+    }
+
+    onInputColor = () => {
+        axios.post(API_URL_1 + '/color', {
+            name: this.refs.new_color.value
+        })
+        .then((response) => {
+            alert("Input Color Success!")
+            this.setState({ color: response.data.listColor })
+        })
+    }
+
+    onInputSize = () => {
+        console.log(this.state.distinct_items)
+        axios.post(API_URL_1 + '/size', {
+            name: this.refs.new_size.value
+        })
+        .then((response) => {
+            var sql = "";
+            this.state.distinct_items.map((item, count) => {
+                if (count < this.state.distinct_items.length-1) {
+                    sql += "('" + item.product_id + "', '" + item.color_id + "', '" + response.data.new_size_id[0].id + "', '" + 0 +"'), "
+                }
+                else {
+                    sql += "('" + item.product_id + "', '" + item.color_id + "', '" + response.data.new_size_id[0].id + "', '" + 0 +"')"
+                }
+            })
+            axios.post(API_URL_1 + '/input_all_product_size', {
+                sql_query: sql
+            })
+            .then((response) => {
+                console.log('success')
+            })
+            this.setState({ size: response.data.listSize })
         })
     }
 
@@ -76,10 +142,18 @@ class AdminPage extends Component {
         return arrJSX;
     }
 
-    renderOptionSize = () => {
-        const arrJSX = this.state.size.map((item) => {
-            return(<option value={item.id}>{item.name}</option>)
-        })
+    renderOptionSize = (mode) => {
+        var arrJSX = ""
+        if (mode === 1) {
+                arrJSX = this.state.size.map((item, count) => {
+                return(<option value={count}>{item.name}</option>)
+            })
+        }
+        else if (mode === 2) {
+                arrJSX = this.state.size.map((item, count) => {
+                return(<option value={item.id}>{item.name}</option>)
+            })
+        }
         return arrJSX;
     }
 
@@ -103,41 +177,27 @@ class AdminPage extends Component {
         })
         return arrJSX;
     }
-
-    getInventoryList() {
-        axios.get(API_URL_1 + "/inventory")
-            .then(item => {
-                this.setState({ items: item.data.listInventory, brand: item.data.listBrand, color: item.data.listColor, size: item.data.listSize, color_count: item.data.color_count[0].total, size_count: item.data.size_count[0].total })})
-            .catch((err) => {
-                console.log(err);
-            })
+    changeTable = (temp) => {
+        if(temp === undefined) {
+            this.setState({table_pick: 'inventory'});
+        }
+        else {
+            this.setState({table_pick: temp.target.value});
+        }
+        console.log(this.state.table_pick)
     }
 
-    renderItemList = () => {
-        return this.state.items.map(item =>
-            <AdminInput id={item.id} link={item.link} name={item.name} description={item.description} price={item.price} 
-            gender={item.gender} brand={item.brand} brand_id={item.brand_id} color={item.color} color_id={item.color_id} size={item.size} size_id={item.size_id} 
-            tempMount={this.getInventoryList.bind(this)} Color_Count={this.state.color_count} Size_Count={this.state.size_count}
-            Option_Color={()=>this.renderOptionColor()} Option_Size={()=>this.renderOptionSize()} Option_Brand={()=>this.renderOptionBrand()}>
-            <td>
-                <input type="button" className="btn btn-danger" value="Delete" onClick={()=>this.onDeleteClick(item.id)}/> 
-            </td>
-            </AdminInput>
-        )
-    }
-
-    render() {
-        console.log(this.state.color_count);
-        console.log(this.state.size_count)
+    selectTable() {
         return(
-        <Grid fluid>
-            <Row className="show-grid">
-                <Col xs={12}>
-                    <PageHeader>
-                    ADMIN
-                    </PageHeader>
-                </Col>
-            </Row>
+            {
+                inventory: () => this.renderAdminProduct(),
+                bcs: () => this.renderAdminBCS()
+            }
+        )   
+    }
+
+    renderAdminProduct = () => {
+        return (
             <Row className="show-grid">
                 <Col xs={2}>
                     <Row>
@@ -219,21 +279,6 @@ class AdminPage extends Component {
                                             {this.renderOptionBrand()}
                                             </select>
                                         </td>
-                                        {/* <td>
-                                            <select ref="color" class="form-control">
-                                            <option value="">Color</option>
-                                            {this.renderOptionColor()}
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select ref="size" class="form-control">
-                                            <option value="">Size</option>
-                                            {this.renderOptionSize()}
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="number" ref="stock" class="form-control" id="inputStock" placeholder="Stock" />
-                                        </td> */}
                                         <td>
                                             <input type="button" class="btn btn-primary" value="Input" onClick={this.onInputClick}/>                       
                                         </td>
@@ -250,13 +295,178 @@ class AdminPage extends Component {
                     </Grid>
                 </Col>
             </Row>
+        );
+    }
+
+    renderAdminBCS = () => {
+        return (
+            <Row className="show-grid">
+                <Col xs={2}>
+                </Col>
+                <Col xs={10}>
+                    <Grid fluid>
+                        <Row className="show-grid">
+                            <Col xs={4}>
+                                <Table responsive>
+                                    <thead>
+                                        <tr>
+                                        <th>ID</th>
+                                        <th>Brand</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.renderBrandList()}
+                                        <tr>
+                                            <td colSpan={2}>
+                                                <input type="text" ref="new_brand" class="form-control" id="inputBrand" placeholder="New Brand Here" />
+                                            </td>
+                                            <td>
+                                                <input type="button" class="btn btn-primary" value="Input" onClick={this.onInputBrand} style={{width:"125px"}}/>                       
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                            </Col>
+                            <Col xs={4}>
+                                <Table responsive>
+                                    <thead>
+                                        <tr>
+                                        <th>ID</th>
+                                        <th>Color</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.renderColorList()}
+                                        <tr>
+                                            <td colSPan={2}>
+                                                <input type="text" ref="new_color" class="form-control" id="inputColor" placeholder="New Color Here" />
+                                            </td>
+                                            <td>
+                                                <input type="button" class="btn btn-primary" value="Input" onClick={this.onInputColor} style={{width:"125px"}}/>                       
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                            </Col>
+                            <Col xs={4}>
+                                <Table responsive>
+                                    <thead>
+                                        <tr>
+                                        <th>ID</th>
+                                        <th>Size</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.renderSizeList()}
+                                        <tr>
+                                            <td colSpan={2}>
+                                                <input type="text" ref="new_size" class="form-control" id="inputSize" placeholder="New Size Here" />
+                                            </td>
+                                            <td>
+                                                <input type="button" class="btn btn-primary" value="Input" onClick={this.onInputSize} style={{width:"125px"}}/>                       
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                            </Col>
+                        </Row>
+                        <Row className="show-grid">
+                        <hr />
+                            <Col xs={12} align="center">
+                                <Pagination />
+                            </Col>
+                        </Row>
+                    </Grid>
+                </Col>
+            </Row>
+        );
+    }
+
+    renderItemList = () => {
+        return this.state.items.map(item =>
+            <AdminInput id={item.id} link={item.link} name={item.name} description={item.description} price={item.price} 
+            gender={item.gender} brand={item.brand} brand_id={item.brand_id}  
+            tempMount={this.getInventoryList.bind(this)} Color_Count={this.state.color_count} Size_Count={this.state.size_count}
+            Option_Color={()=>this.renderOptionColor()} Option_Size={(mode)=>this.renderOptionSize(mode)} Option_Brand={()=>this.renderOptionBrand()}>
+            <td>
+                <input type="button" className="btn btn-danger" value="Delete" onClick={()=>this.onDeleteClick(item.id)} style={{width:"125px"}}/> 
+            </td>
+            </AdminInput>
+        )
+    }
+
+    renderBrandList = () => {
+        return this.state.brand.map(item => 
+            <tr>
+                <td style={{width:"30px"}}>
+                    {item.id}
+                </td>
+                <td style={{width:"150px"}}>
+                    {item.name}
+                </td>
+                <td>
+                    <input type="button" className="btn btn-danger" value="Delete" style={{width:"125px"}}/>
+                </td>
+            </tr>
+            )
+    }
+
+    renderColorList = () => {
+        return this.state.color.map(item => 
+            <tr>
+                <td style={{width:"30px"}}>
+                    {item.id}
+                </td>
+                <td style={{width:"150px"}}>
+                    {item.name}
+                </td>
+                <td>
+                    <input type="button" className="btn btn-danger" value="Delete" style={{width:"125px"}}/>
+                </td>
+            </tr>
+            )
+    }
+
+    renderSizeList = () => {
+        return this.state.size.map(item => 
+            <tr>
+                <td style={{width:"30px"}}>
+                    {item.id}
+                </td>
+                <td style={{width:"150px"}}>
+                    {item.name}
+                </td>
+                <td>
+                    <input type="button" className="btn btn-danger" value="Delete" style={{width:"125px"}}/>
+                </td>
+            </tr>
+            )
+    }
+
+    render() {
+        return(
+        <Grid fluid>
+            <Row className="show-grid">
+                <Col xs={12}>
+                    <PageHeader>
+                    ADMIN
+                    </PageHeader>
+                </Col>
+            </Row>
+            <Row>
+                <Col xs={2}>
+                    <select ref="brand" class="form-control" onChange={this.changeTable} value={this.state.value}>
+                        <option value='inventory'>Product</option>
+                        <option value='bcs'>Brand, Color and Size</option>
+                    </select>
+                </Col>
+            </Row>
+            <hr />
+            {this.selectTable()[this.state.table_pick]()}
             <hr />
         </Grid>
         );
     }
 }
 
-
-// export default connect(mapStateToProps, { onLoginSuccess })(LoginPage); //connect(jalur kiri (GS>COM) mapStateToProps, jalur kanan(COM>GS) ActionCreator)
-// export default connect(null, { onInput })(AdminPage);
 export default AdminPage;

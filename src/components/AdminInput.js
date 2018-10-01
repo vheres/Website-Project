@@ -3,12 +3,14 @@ import axios from 'axios';
 import { API_URL_1 } from '../supports/api-url/apiurl'
 
 var stock_array = new Array();
+var product_color_array = new Array();
 
 class AdminInput extends Component {
-    state = { edit: false, variant: [], current_stock: 0, stock_id: [], select_stock_id: 0}
+    state = { edit: 0, variant: [], product_color: [], current_stock: 0, stock_id: [], select_stock_id: 0, size: [], not_exist_color: []}
 
     componentWillMount() {
         this.getVariantList();
+        this.getSize();
     }
 
     getVariantList() {
@@ -18,7 +20,7 @@ class AdminInput extends Component {
             }
         })
             .then(item => {
-                this.setState({ variant: item.data.variant })
+                this.setState({ variant: item.data.variant, product_color: item.data.product_color })
                 this.select_stock();
             })
             .catch((err) => {
@@ -26,15 +28,27 @@ class AdminInput extends Component {
             })
     }
 
-    
+    getSize() {
+        axios.get(API_URL_1 + "/getsize",)
+            .then(item => {
+                this.setState({ size: item.data.listSize })
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    renderProductColor = () => {
+        const arrJSX = this.state.product_color.map((item, count) => {
+            return(<option value={count}>{item.color}</option>)
+        })
+        return arrJSX;
+    }
 
     preEdit(status) {
         this.setState({ edit: status})
-        this.index_select_stock_id = ((this.color_pick * this.props.Size_Count) + this.size_pick); // 0-8
-        this.state.select_stock_id = this.state.stock_id[this.index_select_stock_id]
+        this.state.select_stock_id = this.state.stock_id[this.color_pick][this.size_pick]
         this.setState({})
-        console.log(this.color_pick, this.size_pick)
-        console.log(this.index_select_stock_id)
     }
 
     onEditClick(id, status) {
@@ -60,7 +74,8 @@ class AdminInput extends Component {
                 alert("Edit Success!");
                 console.log(response);
                 this.props.tempMount();
-                this.setState({edit: status})
+                this.setState({edit: status, variant: response.data.variant})
+                this.select_stock();
             }
         })
         .catch((err) => {
@@ -68,18 +83,84 @@ class AdminInput extends Component {
         })
     }
 
+    preAddVariant(id, status) {
+        axios.get(API_URL_1 + "/not_exist_color?id=" + id,)
+            .then(item => {
+                this.setState({ not_exist_color:item.data.color })
+                console.log(this.state.not_exist_color)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            this.setState({edit:status})
+    }
+
+    onAddVariant(status) {
+        this.state.size.map(item =>
+            {var estock = "estock" + item.name
+            axios.post(API_URL_1 + "/input_variant", {
+                product_id: this.props.id,
+                color_id: this.refs.addVariantColor.value,
+                size_id:item.id,
+                stock: this.refs[estock].value
+            })
+            .then(item => {
+                if(item.data.status === "Error") {
+                    console.log(item.data.err);
+                    alert(item.data.err.sqlMessage);
+                }
+                else {
+                    alert("Input Variant successful!")
+                    this.props.tempMount();
+                    this.setState({edit: status, variant: item.data.variant, product_color: item.data.product_color })
+                    console.log(this.state.product_color)
+                    this.select_stock();
+                }
+            })
+            .catch((err) => {
+                alert("Edit Error!");
+            })    
+        }
+        )
+        this.setState({edit:status})
+    }
+
+    removeVariant(id) {
+        if(window.confirm('Are you sure?\nThis will delete both the selected product\'s variant and the variant\'s stock from database')) {
+            axios.delete(API_URL_1 + '/remove_variant?id=' + id, {
+                color_id: this.refs.optionColor.value
+            })
+            .then((response) => {
+                alert("Delete Success!");
+                console.log(response);
+                this.setState({ items: response.data.listInventory })
+            })
+            .catch((err) => {
+                alert("Delete Error!");
+                console.log(err);
+            })
+        }  
+    }
+
+    renderNotExistColor() {
+        const arrJSX = this.state.not_exist_color.map((item) => {
+            return(<option value={item.id}>{item.color}</option>)
+        })
+        return arrJSX;
+    }
+
     onCancelClick(status) {
         this.setState({edit: status})
     }
     
     changeColor = (temp) => {
-        this.color_pick = temp.target.value-1;
+        this.color_pick = temp.target.value;
         console.log(this.state.stock_id)
         this.select_stock();
     }
 
     changeSize = (temp) => {
-        this.size_pick = temp.target.value -1;
+        this.size_pick = temp.target.value;
         console.log(this.state.stock_id)
         this.select_stock();
     }
@@ -99,23 +180,37 @@ class AdminInput extends Component {
 
     create_stock_array() {
         stock_array = [];
+        this.state.stock_id.length = 0;
+        this.setState({})
         for (var i = 0; i < this.props.Color_Count; i++) {
             stock_array.push(new Array());
+            this.state.stock_id.push(new Array());
         }
         var temp = 0;
-        for (var j = 0; j < this.props.Color_Count; j++) {
+        for (var j = 0; j < this.state.product_color.length; j++) {
             for (var k = 0; k < this.props.Size_Count; k++) {
                 stock_array[j].push(this.state.variant[temp].stock)
-                if (this.state.stock_id.length < (this.props.Color_Count*this.props.Size_Count)) {
-                    this.state.stock_id.push(this.state.variant[temp].id)
-                }
+                this.state.stock_id[j].push(this.state.variant[temp].id)
                 temp++
             }
         }
     }
 
+    renderVariantSize() {
+        return this.state.size.map(item =>
+            <tr>
+                <td style={{width:"130px"}}>
+                    {item.name}
+                </td>
+                <td style={{width:"130px"}}>
+                    <input ref={"estock"+item.name} class="form-control" type="number" defaultValue={0} style={{width:"50px"}}/>
+                </td>
+            </tr>
+        )
+    }
+
     render() {
-        if (this.state.edit == false) {
+        if (this.state.edit === 0) {
         return (
                 <tr>
                     <td style={{width:"30px"}}>
@@ -141,27 +236,27 @@ class AdminInput extends Component {
                     </td>
                     <td style={{width:"130px"}}>
                         <select ref="optionColor" class="form-control" onChange={this.changeColor} value={this.state.value}>
-                            {this.props.Option_Color()}
+                            {this.renderProductColor()}
                         </select>
                     </td>
                     <td style={{width:"130px"}}>
                     <select ref="optionSize" class="form-control" onChange={this.changeSize} value={this.state.value}>
-                        {this.props.Option_Size()}
+                        {this.props.Option_Size(1)}
                         </select>
                     </td>
                     <td style={{width:"130px"}}>
                         {this.state.current_stock}
                     </td>
                     <td style={{width:"50px"}}>
-                        <input type="button" className="btn btn-warning" value="Edit" onClick={() => this.preEdit(true)}/>
-                    </td>
-                    <td style={{width:"50px"}}>
+                        <input type="button" className="btn btn-warning" value="Edit" onClick={() => this.preEdit(1)} style={{width:"125px"}}/>
+                        <input type="button" className="btn btn-primary" value="Add Variant" onClick={() => this.preAddVariant(this.props.id, 2)} style={{width:"125px"}}/>
+                        <input type="button" className="btn btn-danger" value="Remove Variant" onClick={() => this.removeVariant(this.props.id)} style={{width:"125px"}}/>
                         {this.props.children}                  
                     </td>
                 </tr>
         );
     }
-    else if (this.state.edit == true) {
+    else if (this.state.edit === 1) {
         return (
             <tr>
                 <td style={{width:"30px"}}>
@@ -199,17 +294,55 @@ class AdminInput extends Component {
                 </td>
                 <td>
                     <select ref="esize" class="form-control" style={{width:"130px"}} disabled>
-                    {this.props.Option_Size()}
+                    {this.props.Option_Size(2)}
                     </select>
                 </td>
                 <td>
                     <input ref="estock" class="form-control" type="number" defaultValue={this.state.current_stock} style={{width:"50px"}}/>
                 </td>
                 <td>
-                    <input type="button" className="btn btn-success" value="Save" onClick={() => this.onEditClick(this.props.id, false)}/>
+                    <input type="button" className="btn btn-success" value="Save" onClick={() => this.onEditClick(this.props.id, 0)} style={{width:"125px"}}/>
+                    <input type="button" className="btn btn-warning" value="Cancel" onClick={() => this.onCancelClick(0)} style={{width:"125px"}}/>
                 </td>
-                <td>
-                    <input type="button" className="btn btn-warning" value="Cancel" onClick={() => this.onCancelClick(false)}/>
+            </tr>
+    );
+    }
+    else if (this.state.edit === 2) {
+        return (
+            <tr>
+                <td style={{width:"30px"}}>
+                    {this.props.id}
+                </td>
+                <td style={{width:"100px"}}>
+                    <img src={this.props.link} width="100px"/>
+                </td>
+                <td style={{width:"150px"}}>
+                    {this.props.name}
+                </td>
+                <td style={{width:"500px"}} className="text-justify">
+                    {this.props.description}
+                </td>
+                <td style={{width:"50px"}}>
+                    {this.props.price}
+                </td>
+                <td style={{width:"100px"}}>
+                    {this.props.gender}
+                </td>
+                <td style={{width:"130px"}}>
+                    {this.props.brand}
+                </td>
+                <td style={{width:"130px"}}>
+                    <select ref="addVariantColor" class="form-control" onChange={this.changeColor} value={this.state.value}>
+                        {this.renderNotExistColor()}
+                    </select>
+                </td>
+                <td colSpan={2}>
+                {this.renderVariantSize()}
+                </td>
+
+                <td style={{width:"50px"}}>
+                    <input type="button" className="btn btn-success" value="Add" onClick={() => this.onAddVariant(0)} style={{width:"125px"}}/>
+                    <input type="button" className="btn btn-warning" value="Cancel" onClick={() => this.onCancelClick(0)} style={{width:"125px"}}/>                 
                 </td>
             </tr>
     );

@@ -1,29 +1,22 @@
 import React, { Component } from 'react';
-import ParamwLabel from './ParamwLabel';
 import { Row, Col, Image } from 'react-bootstrap';
 
 class CartDetail extends Component {
     render() {
+        console.log('render cart detail')
         return(
-            <Row>
-                <Col xs={2}>
-                    <Image src={this.props.Link} rounded responsive />
-                </Col>
-                <Col xs={4}>
-                    {this.props.Name}
-                    {this.props.Description}<br />
-                    {this.props.Category}<br />
-                </Col>
-                <Col xs={2}>
-                    <ParamwLabel param="1" param2="2" param3="3" />
-                </Col>
-                <Col xs={2}>
-                    <h5 align="center">{this.props.Price}</h5>
-                </Col>
-                <Col xs={2}>
-                    <h5 align="center">X</h5>
-                </Col>
-            </Row>
+            <tr>
+                <td>{this.props.id}</td>
+                <td><img src={this.props.link} width="100px"/></td>
+                <td>{this.props.product_name}</td>
+                <td>{this.props.gender}</td>
+                <td>{this.props.brand}</td>
+                <td>{this.props.color}</td>
+                <td>{this.props.size}</td>
+                <td>{this.props.quantity}</td>
+                <td>${this.props.price}</td>
+                <td>{this.props.children}</td>
+            </tr>
         );
     }
 }

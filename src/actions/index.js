@@ -11,10 +11,10 @@ export const onLogin = (user) => {
                 }
 
             }).then(user => {
-                console.log(user);
+                console.log(user.data.username);
                 dispatch ({
                     type: "USER_LOGIN_SUCCESS",
-                    payload: { username: user.data[0].username, email: user.data[0].email, error: "", id: user.data[0].id, password: user.data[0].password, cookieCheck: true }
+                    payload: { username: user.data.username, email: user.data.email, error: "", id: user.data.id, cookieCheck: true }
                 })       
             }).catch(err => {
                 console.log(err);
@@ -36,7 +36,7 @@ export const keepLogin = (email) => {
             }).then(user => {
                 dispatch ({
                     type: "USER_LOGIN_SUCCESS",
-                    payload: { username: user.data[0].username, email: user.data[0].email, error: "", id: user.data[0].id, password: user.data[0].password, cookieCheck: true }
+                    payload: { username: user.data.username, email: user.data.email, error: "", id: user.data.id, cookieCheck: true }
                 })
                 dispatch ({
                     type: "COOKIES_CHECKED"
@@ -58,14 +58,13 @@ export const cookieChecked = () => {
 
 export const onLogout = () => {
     return(dispatch) => {
-    dispatch ({
-        type: "USER_LOGOUT"
-    });
-    dispatch ({
-        type: "COOKIES_CHECKED"
-    });
-}
-
+        dispatch ({
+            type: "USER_LOGOUT"
+        });
+        dispatch ({
+            type: "COOKIES_CHECKED"
+        });
+    }
 }
 
 export const onRegister = (user) => {
@@ -75,7 +74,7 @@ export const onRegister = (user) => {
             console.log(res);
             dispatch({
                 type: "USER_LOGIN_SUCCESS",
-                payload: { username: res.data.username, email: res.data.email, error: "", cookieCheck: true}
+                payload: { username: res.data.username, email: res.data.email, id: user.data.id, error: "", cookieCheck: true}
             })
         })
         .catch((err) => {
@@ -83,29 +82,3 @@ export const onRegister = (user) => {
         })
     }
 }
-
-// export const onUserSelect = (item) => {
-//     return(dispatch) => {
-//         dispatch({
-//             type:"USER_SELECT_ITEM",
-//             payload: { detailSelect: item }
-//         })
-//     }
-// }
-
-export const onAddToCart = (item) => {
-    return(dispatch) => {
-        axios.post(API_URL_1 + '/users/', item)
-        .then((res) => {
-            console.log(res);
-            dispatch({
-                type: "USER_ADD_TO_CART",
-                payload: { link: res.data.link, name: res.data.name, description: res.data.description, quantity: res.data.quantity, price: res.data.price}
-            })
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-    }
-}
-//dispatch fungsinya sama dengan return, tapi bisa dipakai lebih dari 1x

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Featured from './Featured';
 import CartDetail from './CartDetail';
-import { Grid, Row, Col, PageHeader, Button } from 'react-bootstrap';
+import { Grid, Row, Col, PageHeader, Button, Table } from 'react-bootstrap';
+import { API_URL_1 } from '../supports/api-url/apiurl';
+import axios from 'axios';
 
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -9,16 +11,49 @@ import { Redirect } from 'react-router-dom';
 import rick from '../assets/rick.png';
 
 class CartPage extends Component {
+    state = { carts: [] }
+
+    componentWillMount() {
+        this.getUserCart();
+    }
+
+    getUserCart() {
+        axios.get(API_URL_1 + "/cart", {
+            params: {
+                id: this.props.auth.id
+            }
+        })
+            .then(item => {
+                this.setState({ carts: item.data.cart })
+                console.log(this.state.carts)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    calculateTotalPrice() {
+        this.totalPrice = 0;
+        this.state.carts.map(item => {
+            this.totalPrice += item.price;
+        })
+        return this.totalPrice;
+    }
+
     renderItemList = () => {
-        return this.props.cart.map((item) =>
-            <CartDetail key={item.name} Link={item.link} Name={item.name} Description={item.description} Price={item.price} Category={item.category}/>
-        );
+        console.log(this.state.carts)
+        return this.state.carts.map(item =>
+            <CartDetail key={item.id} id={item.id} user_id={item.user_id} username={item.username} product_id={item.product_id} link={item.link} product_name={item.product_name} 
+            gender={item.gender} brand_id={item.brand_id} brand={item.brand} color_id={item.color_id} color={item.color} size_id={item.size_id} size={item.size} 
+            quantity={item.quantity} price={item.price}>
+            <input type="button" className="btn btn-danger" value="Remove" style={{width:"100px"}}/>
+            </CartDetail>
+        )
     }
 
     render() {
         if (this.props.auth.cookieCheck === true) {
         if (this.props.auth.username !== "") {
-            console.log(this.props.cart);
             return(
             <Grid fluid>
                 <Row className="show-grid">
@@ -31,36 +66,38 @@ class CartPage extends Component {
                     </Col>
                 </Row>
                 <Grid>
-                <Row>
-                    <Col xs={6}>
-                        <h5><strong>Product's Name</strong></h5>
-                    </Col>
-                    <Col xs={2}>
-                        <h5 align="center"><strong>Quantity</strong></h5>
-                    </Col>
-                    <Col xs={2}>
-                        <h5 align="center"><strong>SubTotal</strong></h5>
-                    </Col>
-                    <Col xs={2}>
-                        <Button>CLEAR CART</Button>
-                    </Col>
-                </Row>
-                <hr />
-                <Row className="show-grid">
-                    {this.renderItemList()}
-                </Row>
-                <Row>
-                    <h5 align="right">SubTotal: $160</h5>
-                    <hr />
-                </Row>
-                <Row>
-                    <Col xs={6}>
-                        <Button><i className="fa fa-arrow-left"></i> BACK TO SHOPPING</Button>
-                    </Col>
-                    <Col xs={6}>
-                    <Button className="checkOutButton" bsStyle="success">CHECKOUT</Button>
-                    </Col>
-                </Row>
+                    <Row>
+                    <Table responsive>
+                        <thead>
+                            <tr>
+                            <th>ID</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Brand</th>
+                            <th>Color</th>
+                            <th>Size</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th><input type="button" className="btn btn-warning" value="Clear Cart" style={{width:"100px"}}/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderItemList()}
+                            <tr>
+                                <td colSpan={7}></td>
+                                <td>Total Price: </td>
+                                <td>${this.calculateTotalPrice()}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" className="btn btn-primary" value="Back to Catalog" style={{width:"125px"}}/></td>
+                                <td colSpan={8}></td>
+                                <td><input type="button" className="btn btn-success" value="Check Out" style={{width:"100px"}}/></td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                    </Row>
                 </Grid>
                 <Row>
                     <Col xs={12}>
@@ -96,11 +133,10 @@ class CartPage extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const cart = state.cart;
     const auth = state.auth;
 
     // return { users, auth };
-    return { auth, cart };
+    return { auth };
 }
 
 // export default connect(mapStateToProps, { onLoginSuccess })(LoginPage); //connect(jalur kiri (GS>COM) mapStateToProps, jalur kanan(COM>GS) ActionCreator)

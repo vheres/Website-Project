@@ -18,8 +18,6 @@ import { keepLogin, onLogout, cookieChecked } from './actions';
 import { Route, withRouter } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
-import axios from 'axios';
-
 const cookies = new Cookies();
 
 class App extends Component {
@@ -32,13 +30,6 @@ class App extends Component {
       this.props.cookieChecked();
     }
     console.log(this.props.auth);
-
-    axios.get('http://localhost:1995/users')
-    .then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      console.log(err);
-    })
   }
 
   componentWillReceiveProps(newProps) {
