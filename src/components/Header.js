@@ -1,14 +1,12 @@
 
 import React, { Component } from 'react';  // React, { Component } -> destructuring
-import { Nav, Navbar, NavItem, NavDropdown, MenuItem, Grid, Row, Col } from 'react-bootstrap';
+import { Nav, Navbar, NavItem, NavDropdown, MenuItem, Grid, Row, Col, FormControl, FormGroup, InputGroup, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import NavJustified from './NavJustified';
 import { onLogout } from '../actions';
 import Cookies from 'universal-cookie';
 import { keepLogin, cookieChecked } from '../actions';
 
-var hello = "Hello, ";
 const cookies = new Cookies();
 
 class Header extends Component { //kalo gak pake destructuring, tulisnya React.Component
@@ -35,15 +33,13 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
 
     renderNavbar = () => {   
         if(this.props.auth.username !== "") {
-            hello = "Hello, ";
-            hello += this.props.auth.username;
             return(
                 <Grid fluid>
                     <Row className="show-grid">
-                        <Navbar fixedTop={true} inverse collapseOnSelect>
+                        <Navbar fixedTop={true} inverse collapseOnSelect fluid>
                         <Navbar.Header>
                             <Navbar.Brand>
-                            <Link to="/">CouLand</Link>
+                            <Link to="/">Boots</Link>
                             </Navbar.Brand>
                             <Navbar.Toggle />
                         </Navbar.Header>
@@ -52,16 +48,6 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
                             <NavItem eventKey={2}>
                                 <Link to="/catalog">Category</Link>
                             </NavItem>
-                            <NavItem eventKey={2}>
-                                <Link to="/detail">Detail</Link>
-                            </NavItem>
-                            <NavDropdown eventKey={3} title="Gym" id="basic-nav-dropdown">
-                                <MenuItem eventKey={3.1}>Free Weight</MenuItem>
-                                <MenuItem eventKey={3.2}>Body Weight</MenuItem>
-                                <MenuItem eventKey={3.3}></MenuItem>
-                                <MenuItem divider />
-                                <MenuItem eventKey={3.3}>Separated link</MenuItem>
-                            </NavDropdown>
                             <NavItem eventKey={4}>
                             <Link to="/cart">Cart</Link>
                             </NavItem>
@@ -70,22 +56,18 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
                             </NavItem>
                             </Nav>
                             <Nav pullRight>
-                            <NavDropdown eventKey={1} title={hello} id="basic-nav-dropdown">
-                                <Link to="/"><input type="button" onClick={this.onLogoutClick} value="logout"/></Link>
+                            <NavItem>
+                                <FormControl type="text" ref="search" class="form-control" id="inputSearch" placeholder="Search Boots" style={{width:"400px"}}/> 
+                            </NavItem>       
+                            <NavDropdown eventKey={1} title={"Hello, " + this.props.auth.username} id="basic-nav-dropdown">
+                                <Link to="/profile"><MenuItem className="btn btn-default" style={{width:"100%"}}><Link to="/profile">Profile</Link></MenuItem></Link>
+                                <Link to="/"><MenuItem className="btn btn-default" onClick={this.onLogoutClick} style={{width:"100%"}}>Log Out</MenuItem></Link>
                             </NavDropdown>
                             </Nav>
                         </Navbar.Collapse>
                         </Navbar>
-                    </Row>
-                    <Row className="pill-header">
-                        <Col xs={2}>
-                        </Col>
-                        <Col xs={8}>
-                        <br/>
-                        <br/>
-                        <br/>
-                            <NavJustified />
-                        </Col>
+                        <br />
+                        <br />
                     </Row>
                 </Grid>
             );
@@ -94,10 +76,10 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
         return(
             <Grid fluid className="no-margin">
                 <Row className="show-grid">
-                    <Navbar fixedTop={true} inverse collapseOnSelect>
+                    <Navbar fixedTop={true} inverse collapseOnSelect fluid>
                         <Navbar.Header>
                             <Navbar.Brand>
-                                <Link to="/">CouLand</Link>
+                                <Link to="/">Boots</Link>
                             </Navbar.Brand>
                             <Navbar.Toggle />
                         </Navbar.Header>
@@ -107,23 +89,16 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
                                 <Link to="/catalog">Category</Link>
                             </NavItem>
                             <NavItem eventKey={2}>
-                                <Link to="/detail">Detail</Link>
-                            </NavItem>
-                            <NavDropdown eventKey={3} title="Gym" id="basic-nav-dropdown">
-                                <MenuItem eventKey={3.1}>Free Weight</MenuItem>
-                                <MenuItem eventKey={3.2}>Body Weight</MenuItem>
-                                <MenuItem eventKey={3.3}></MenuItem>
-                                <MenuItem divider />
-                                <MenuItem eventKey={3.3}>Separated link</MenuItem>
-                            </NavDropdown>
-                            <NavItem eventKey={2}>
-                            <Link to="/cart">Cart</Link>
+                                <Link to="/cart">Cart</Link>
                             </NavItem>
                             <NavItem eventKey={4}>
-                            <Link to="/admin">Admin</Link>
+                                <Link to="/admin">Admin</Link>
                             </NavItem>
                             </Nav>
-                            <Nav pullRight>
+                            <Nav pullRight>      
+                            <NavItem>
+                            <FormControl type="text" ref="search" class="form-control" id="inputSearch" placeholder="Search Boots" style={{width:"400px"}}/>
+                            </NavItem>                                    
                             <NavItem eventKey={1}>
                                 <Link to="/login">Login</Link>
                             </NavItem>
@@ -135,14 +110,6 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
                         </Navbar>
                         <br />
                         <br />
-                        <br />
-                    </Row>
-                    <Row className="show-grid" className="pill-header">
-                        <Col xs={2}>
-                        </Col>
-                        <Col xs={8}>
-                            <NavJustified />
-                        </Col>
                     </Row>
                 </Grid>
         );

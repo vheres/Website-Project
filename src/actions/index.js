@@ -71,11 +71,15 @@ export const onRegister = (user) => {
     return(dispatch) => {
         axios.post(API_URL_1 + '/users', user)
         .then((res) => {
-            console.log(res);
-            dispatch({
-                type: "USER_LOGIN_SUCCESS",
-                payload: { username: res.data.username, email: res.data.email, id: user.data.id, error: "", cookieCheck: true}
-            })
+            if (res.data.error === undefined) {
+                dispatch({
+                    type: "USER_LOGIN_SUCCESS",
+                    payload: { username: res.data.username, email: res.data.email, id: res.data.id, error: "", cookieCheck: true}
+                })
+            }
+            else {
+                alert(`${res.data.error}`)
+            }
         })
         .catch((err) => {
             console.log(err);

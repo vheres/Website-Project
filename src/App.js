@@ -5,6 +5,7 @@ import HomePage from './components/HomePage';
 import CatalogPage from './components/CatalogPage';
 import DetailPage from './components/DetailPage';
 import CartPage from './components/CartPage';
+import ProfilePage from './components/ProfilePage';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import Footer from './components/Footer';
@@ -12,7 +13,7 @@ import Admin from './components/Admin';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import './supports/css/font-awesome.css';
-import './supports/css/bootstrap.css'
+import './supports/css/bootstrap.css';
 import { connect } from 'react-redux';
 import { keepLogin, onLogout, cookieChecked } from './actions';
 import { Route, withRouter } from 'react-router-dom';
@@ -54,6 +55,7 @@ class App extends Component {
               <Route path="/catalog" component={CatalogPage}/>
               <Route path="/detail" component={DetailPage}/>
               <Route path="/cart" component={CartPage}/>
+              <Route path="/profile" component={ProfilePage}/>
               <Route path="/login" component={LoginPage}/>
               <Route path="/register" component={RegisterPage}/>
               <Route path="/admin" component={Admin}/>

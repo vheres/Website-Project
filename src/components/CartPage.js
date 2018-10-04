@@ -5,6 +5,7 @@ import { Grid, Row, Col, PageHeader, Button, Table } from 'react-bootstrap';
 import { API_URL_1 } from '../supports/api-url/apiurl';
 import axios from 'axios';
 
+
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
@@ -14,7 +15,9 @@ class CartPage extends Component {
     state = { carts: [] }
 
     componentWillMount() {
-        this.getUserCart();
+        if (this.props.auth.id !== ``) {
+            this.getUserCart();
+        }
     }
 
     getUserCart() {
@@ -32,6 +35,48 @@ class CartPage extends Component {
             })
     }
 
+    onRemoveClick(id) {
+        if(window.confirm('Are you sure?')) {
+            axios.delete(API_URL_1 + '/remove_cart_item', {
+                params: {
+                cart_id: id,
+                user_id: this.props.auth.id
+                }
+            })
+            .then((item) => {
+                alert("Delete Success!");
+                this.setState({ carts: item.data.cart })
+                console.log(this.state.carts)
+            })
+            .catch((err) => {
+                alert("Delete Error!");
+                console.log(err);
+            })
+        }  
+    }
+
+    onCheckOutClick() {
+        console.log(this.state.carts)
+        axios.post(API_URL_1 + '/check_out', {
+            cart: this.state.carts,
+            total_price: this.calculateTotalPrice(),
+            user_id: this.props.auth.id
+        }).then((res) => {
+            if(res.data.stockErr === undefined) {
+                alert('Check Out Success!')
+                this.setState({carts: []})
+            }
+            else {
+                var errText = ``;
+                res.data.stockErr.map((item,count) => {
+                    errText += `${count+1}. \n${item}`
+                })
+                alert(errText)
+            }
+            
+        })
+    }
+
     calculateTotalPrice() {
         this.totalPrice = 0;
         this.state.carts.map(item => {
@@ -42,11 +87,11 @@ class CartPage extends Component {
 
     renderItemList = () => {
         console.log(this.state.carts)
-        return this.state.carts.map(item =>
-            <CartDetail key={item.id} id={item.id} user_id={item.user_id} username={item.username} product_id={item.product_id} link={item.link} product_name={item.product_name} 
+        return this.state.carts.map((item, count) =>
+            <CartDetail count={count + 1} key={item.id} id={item.id} user_id={item.user_id} username={item.username} product_id={item.product_id} link={item.link} product_name={item.product_name} 
             gender={item.gender} brand_id={item.brand_id} brand={item.brand} color_id={item.color_id} color={item.color} size_id={item.size_id} size={item.size} 
             quantity={item.quantity} price={item.price}>
-            <input type="button" className="btn btn-danger" value="Remove" style={{width:"100px"}}/>
+            <input type="button" className="btn btn-danger" value="Remove" style={{width:"100px"}} onClick={()=>this.onRemoveClick(item.id)}/>
             </CartDetail>
         )
     }
@@ -70,7 +115,7 @@ class CartPage extends Component {
                     <Table responsive>
                         <thead>
                             <tr>
-                            <th>ID</th>
+                            <th>No.</th>
                             <th>Image</th>
                             <th>Name</th>
                             <th>Gender</th>
@@ -93,7 +138,7 @@ class CartPage extends Component {
                             <tr>
                                 <td><input type="button" className="btn btn-primary" value="Back to Catalog" style={{width:"125px"}}/></td>
                                 <td colSpan={8}></td>
-                                <td><input type="button" className="btn btn-success" value="Check Out" style={{width:"100px"}}/></td>
+                                <td><input type="button" className="btn btn-success" value="Check Out" style={{width:"100px"}} onClick={()=>this.onCheckOutClick()}/></td>
                             </tr>
                         </tbody>
                     </Table>

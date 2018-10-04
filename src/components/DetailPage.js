@@ -31,27 +31,33 @@ class DetailPage extends Component {
     }
 
     onAddToCartClick() {
-        console.log('id ', this.props.auth.id)
-        console.log('product_id ', this.state.items.id)
-        console.log('color ', this.refs.optionColor.value[2])
-        console.log('size ', this.refs.optionSize.value[2])
-        console.log('quantity ', this.refs.optionQuantity.value)
-        var price = this.state.items.price * this.refs.optionQuantity.value;
-        axios.post(API_URL_1 + '/add_to_cart', {
-            id: this.props.auth.id,
-            product_id: this.state.items.id,
-            color_id: this.refs.optionColor.value[2],
-            size_id: this.refs.optionSize.value[2],
-            quantity: this.refs.optionQuantity.value,
-            price: price
-        })
-        .then((res) => {
-            alert('Add successful')
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-
+        if ( this.props.auth.username === '') {
+            this.props.history.push('/login')
+        }
+        else {
+            var price = this.state.items.price * this.refs.optionQuantity.value;
+            axios.post(API_URL_1 + '/add_to_cart', {
+                id: this.props.auth.id,
+                product_id: this.state.items.id,
+                color_id: this.refs.optionColor.value[2],
+                size_id: this.refs.optionSize.value[2],
+                quantity: this.refs.optionQuantity.value,
+                price: price,
+                current_stock: this.state.current_stock
+            })
+            .then((res) => {
+                if (res.data.info !== undefined) {
+                    alert (res.data.info)
+                }
+                else if(res.data.info === undefined){
+                    alert('Add successful')
+                }
+                
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        }
     }
 
     renderAddToCartBTN = () => {
@@ -180,11 +186,11 @@ class DetailPage extends Component {
                             </Row>
                             <Row>
                                 <select ref="optionQuantity" class="form-control" onChange={this.changeQty} value={this.state.value}>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    <option value={1}>1</option>
+                                    <option value={2}>2</option>
+                                    <option value={3}>3</option>
+                                    <option value={4}>4</option>
+                                    <option value={5}>5</option>
                                 </select>
                             </Row>  
                         </Col>                      

@@ -6,7 +6,7 @@ class CartDetail extends Component {
         console.log('render cart detail')
         return(
             <tr>
-                <td>{this.props.id}</td>
+                <td>{this.props.count}</td>
                 <td><img src={this.props.link} width="100px"/></td>
                 <td>{this.props.product_name}</td>
                 <td>{this.props.gender}</td>

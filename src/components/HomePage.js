@@ -6,9 +6,6 @@ import Featured from './Featured';
 import SubFooter from './SubFooter';
 import { Grid, Row, Col  } from 'react-bootstrap';
 
-import carouselPict1 from '../assets/img/banners/home02.jpg';
-import carouselPict2 from '../assets/img/banners/home02.jpg';
-import carouselPict3 from '../assets/img/banners/home02.jpg';
 import pict1 from '../assets/img/banners/01.jpg';
 import pict2 from '../assets/img/banners/02.jpg';
 import pict3 from '../assets/img/banners/home03.jpg';
@@ -24,7 +21,7 @@ class HomePage extends Component {
             <Row className="show-grid">
                     <Row className="show-grid">
                         <Col xs={12} >
-                            <Carouselclass thumbs={false} img1={carouselPict1} img2={carouselPict2} img3={carouselPict3} percentage={100}/>
+                            <Carouselclass thumbs={false} img1="http://www.toprelocators.co.uk/includes/templates/lliefjwe/images/banner.jpg" img2="http://www.toprelocators.co.uk/includes/templates/lliefjwe/images/banner.jpg" img3="http://www.toprelocators.co.uk/includes/templates/lliefjwe/images/banner.jpg" percentage={100}/>
                         </Col>
                     </Row>
 
