@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import CategoryFilter from './CategoryFilter';
-import BrandFilter from './BrandFilter';
-import Pagination from './Pagination';
+import PaginationClass from './Pagination';
 import { Grid, Row, Col, PageHeader, Button } from 'react-bootstrap';
 import ItemDetail from './ItemDetail';
 import { API_URL_1 } from '../supports/api-url/apiurl';
@@ -9,30 +7,74 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 class CatalogPage extends Component {
-    state = { items: [], brand: [] }
+    state = { items: [], brand: [], pagination: [], pagecount: 0, search_status: [0], active: [0] }
 
     componentWillMount() {
-        axios.get(API_URL_1 + "/inventory")
+        if (this.state.pagination.length === 0) {
+            this.state.pagination.push(0, 20)
+        }
+        this.setState({})
+        if(this.state.search_status[0] === 0) {
+            this.getInventoryList(); 
+        }
+        else {
+            this.onSearchClick();
+        }
+    }
+
+    getInventoryList() {
+        console.log(this.state.pagination)
+        axios.get(API_URL_1 + "/inventory", {
+            params: {
+                pagination: this.state.pagination
+            }
+        })
             .then(item => {
                 console.log(item);
-                    this.setState({ items: item.data.listInventory, brand: item.data.listBrand })
+                    this.setState({ items: item.data.listInventory, brand: item.data.listBrand, pagecount: Math.ceil((item.data.pagecount[0].count/20)) })
             }).catch((err) => {
                 console.log(err);
-            });              
+            });         
+    }
+
+    onPageClick(page , active) {
+        this.state.active.shift();
+        this.state.active.push(active);
+        this.state.pagination.length = 0;
+        this.state.pagination.push(page, 20)
+        this.setState({})
+        this.getSearchList();
     }
     
     onSearchClick() {
+        if(this.state.search_status[0] === 0) {
+            this.state.search_status.shift();
+            this.state.search_status.push(1);
+        }
+        
+        if(this.state.search_status[0] !== 0) {
+            this.state.pagination.length = 0;
+            this.state.pagination.push(0, 20)
+        }
+        this.state.active.shift();
+        this.state.active.push(0);
+        this.getSearchList();
+    }
+
+    getSearchList() {
+        console.log(this.state.search_status)
         axios.get(API_URL_1 + "/search_inventory", {
             params: {
                 name: this.refs.searchName.value,
                 minPrice: this.refs.searchPriceMin.value,
                 maxPrice: this.refs.searchPriceMax.value,
                 gender: this.refs.searchGender.value,
-                brand: this.refs.searchBrand.value
+                brand: this.refs.searchBrand.value,
+                pagination: this.state.pagination
             }
         })
             .then(item => {
-                this.setState({ items: item.data.listInventory })})
+                this.setState({ items: item.data.listInventory, pagecount: Math.ceil((item.data.pagecount[0].count/20)) })})
             .catch((err) => {
                 console.log(err);
             })
@@ -87,6 +129,7 @@ class CatalogPage extends Component {
                     <Row>
                         <p>Gender</p>
                         <select ref="searchGender" class="form-control">
+                        <option value="">Gender</option>
                             <option value="Men">Men</option>
                             <option value="Women">Women</option>
                         </select>
@@ -112,7 +155,7 @@ class CatalogPage extends Component {
                         <Row className="show-grid">
                         <hr />
                             <Col xs={12} align="center">
-                                <Pagination />
+                                <PaginationClass count={this.state.pagecount} PageClick={(page, active)=>this.onPageClick(page, active)} active={this.state.active[0]}/>
                             </Col>
                         </Row>
                     </Grid>
@@ -126,11 +169,8 @@ class CatalogPage extends Component {
 
 const mapStateToProps = (state) => {
     const auth = state.auth;
-    // const slct = state.slct;
 
-    // return { users, auth };
     return { auth };
 }
 
-// export default connect(mapStateToProps, { onLoginSuccess })(LoginPage); //connect(jalur kiri (GS>COM) mapStateToProps, jalur kanan(COM>GS) ActionCreator)
 export default connect(mapStateToProps, {} )(CatalogPage);
