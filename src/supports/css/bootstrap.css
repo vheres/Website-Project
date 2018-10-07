@@ -6808,5 +6808,42 @@ button.close {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.navbar-css {
+  background-image: url("http://images.designtrends.com/wp-content/uploads/2015/12/21045108/White-Wood-Texture.jpg");
+  background: url('http://images.designtrends.com/wp-content/uploads/2015/12/21045108/White-Wood-Texture.jpg');
+}
+.header-text {
+  color: rgb(255, 255, 255);
+  font-size: 18px;
+  font-weight: 600;
+}
+.header-text:hover {
+  color: rgb(255, 255, 255);
+}
+.header-text:active {
+  color: rgb(255, 255, 255);
+}
+.header-button {
+  /* border: 1px solid rgb(20, 7, 0); */
+  background-color: rgba(0, 0, 0, 0.801);
+}
+.header-button:hover {
+  background-color: rgba(0, 0, 0, 0.274);
+  -webkit-transition: background-color ease-in-out .3s;
+  -o-transition: background-color ease-in-out .3s;
+     transition: background-color ease-in-out .3s;
+}
+.header-box {
+  height: 8px;
+  width: 100%;
+  background: rgb(0, 0, 0);
+}
+.body-css {
+  background: rgb(255, 255, 255)
+}
+.footer-css {
+  background-image: url("http://images.designtrends.com/wp-content/uploads/2015/12/21045108/White-Wood-Texture.jpg");
+  background: url('http://images.designtrends.com/wp-content/uploads/2015/12/21045108/White-Wood-Texture.jpg');
+}
 
 

@@ -8,7 +8,7 @@ import rick3 from '../assets/rick3.jpg';
 class Footer extends Component {
     render() {
         return (
-            <Grid fluid>
+            <Grid fluid className="footer-css">
                 <Row className="show-grid">
                     <Col xs={2} >
                     </Col>

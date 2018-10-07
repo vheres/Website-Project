@@ -14,18 +14,34 @@ class CatalogPage extends Component {
             this.state.pagination.push(0, 20)
         }
         this.setState({})
-        if(this.state.search_status[0] === 0) {
-            this.getInventoryList(); 
-        }
-        else {
-            this.onSearchClick();
-        }
+        this.getInventoryList(); 
     }
 
     getInventoryList() {
-        console.log(this.state.pagination)
+        const search = this.props.location.search;
+        const params = new URLSearchParams(search);
+        if(search.length == 0) {
+            var name = '';
+            var minPrice = '';
+            var maxPrice = '';
+            var gender = '';
+            var brand = '';
+        }
+        else {
+            var name = params.get('name');
+            var minPrice = params.get('minPrice');
+            var maxPrice = params.get('maxPrice');
+            var gender = params.get('gender');
+            var brand = params.get('brand');
+        }
+        
         axios.get(API_URL_1 + "/inventory", {
             params: {
+                name: name,
+                minPrice: minPrice,
+                maxPrice: maxPrice,
+                gender: gender,
+                brand: brand,
                 pagination: this.state.pagination
             }
         })
@@ -43,7 +59,7 @@ class CatalogPage extends Component {
         this.state.pagination.length = 0;
         this.state.pagination.push(page, 20)
         this.setState({})
-        this.getSearchList();
+        this.getInventoryList();
     }
     
     onSearchClick() {
@@ -58,26 +74,14 @@ class CatalogPage extends Component {
         }
         this.state.active.shift();
         this.state.active.push(0);
-        this.getSearchList();
+        this.pushPage();
+        // this.props.history.push(`/catalog?name=${this.refs.searchName.value}&minPrice=${this.refs.searchPriceMin.value}&maxPrice=${this.refs.searchPriceMax.value}&gender=${this.refs.searchGender.value}&brand=${this.refs.searchBrand.value}`)
+        // this.getInventoryList();
     }
 
-    getSearchList() {
-        console.log(this.state.search_status)
-        axios.get(API_URL_1 + "/search_inventory", {
-            params: {
-                name: this.refs.searchName.value,
-                minPrice: this.refs.searchPriceMin.value,
-                maxPrice: this.refs.searchPriceMax.value,
-                gender: this.refs.searchGender.value,
-                brand: this.refs.searchBrand.value,
-                pagination: this.state.pagination
-            }
-        })
-            .then(item => {
-                this.setState({ items: item.data.listInventory, pagecount: Math.ceil((item.data.pagecount[0].count/20)) })})
-            .catch((err) => {
-                console.log(err);
-            })
+    async pushPage() {
+        await (this.props.history.push(`/catalog?name=${this.refs.searchName.value}&minPrice=${this.refs.searchPriceMin.value}&maxPrice=${this.refs.searchPriceMax.value}&gender=${this.refs.searchGender.value}&brand=${this.refs.searchBrand.value}`))
+        this.getInventoryList();
     }
 
     onDetailClick(temp) {
@@ -99,7 +103,6 @@ class CatalogPage extends Component {
     }
 
     render() {
-        console.log(this.state.items);
         return(
         <Grid fluid>
             <Row className="show-grid">
@@ -122,8 +125,8 @@ class CatalogPage extends Component {
                     </Row>
                     <Row>
                         <p>Product's Price</p>
-                        <input type="number" ref="searchPriceMin" class="form-control" id="inputSearchPriceMin" placeholder="Min Price" step="10000"/>
-                        <input type="number" ref="searchPriceMax" class="form-control" id="inputSearchPriceMax" placeholder="Max Price" step="10000"/>
+                        <input type="number" ref="searchPriceMin" class="form-control" id="inputSearchPriceMin" placeholder="Min Price" step="10"/>
+                        <input type="number" ref="searchPriceMax" class="form-control" id="inputSearchPriceMax" placeholder="Max Price" step="10"/>
                         <br/>
                     </Row>
                     <Row>
@@ -165,7 +168,7 @@ class CatalogPage extends Component {
         </Grid>
         );
     }
-}
+} 
 
 const mapStateToProps = (state) => {
     const auth = state.auth;

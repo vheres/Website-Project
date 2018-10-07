@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Pagination from './Pagination';
+import PaginationClass from './Pagination';
 import { Grid, Row, Col, PageHeader, Table, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import { API_URL_1 } from '../supports/api-url/apiurl';
 import axios from 'axios';
@@ -8,9 +8,12 @@ import { connect } from 'react-redux';
 import AdminInput from './AdminInput';
 
 class AdminPage extends Component {
-    state = { items: [], distinct_items: [], brand: [], color: [], color_count: "", size: [], size_count: "", table_list: [], table_pick: ""}
+    state = { items: [], distinct_items: [], brand: [], color: [], color_count: "", size: [], size_count: "", table_list: [], table_pick: "", pagination: [], pagecount: 0, active: [0], search_status: [0]}
 
     componentWillMount() {
+        if (this.state.pagination.length === 0) {
+            this.state.pagination.push(0, 20)
+        }
         this.getTableList();
         this.getInventoryList();
         this.changeTable();
@@ -28,12 +31,46 @@ class AdminPage extends Component {
         }
 
     getInventoryList() {
-        axios.get(API_URL_1 + "/inventory")
+        const search = this.props.location.search;
+        const params = new URLSearchParams(search);
+        if(search.length == 0) {
+            var name = '';
+            var minPrice = '';
+            var maxPrice = '';
+            var gender = '';
+            var brand = '';
+        }
+        else {
+            var name = params.get('name');
+            var minPrice = params.get('minPrice');
+            var maxPrice = params.get('maxPrice');
+            var gender = params.get('gender');
+            var brand = params.get('brand');
+        }
+        axios.get(API_URL_1 + "/inventory", {
+            params: {
+                name: name,
+                minPrice: minPrice,
+                maxPrice: maxPrice,
+                gender: gender,
+                brand: brand,
+                pagination: this.state.pagination
+            }
+        })
             .then(item => {
-                this.setState({ items: item.data.listInventory, brand: item.data.listBrand, color: item.data.listColor, size: item.data.listSize, color_count: item.data.color_count[0].total, size_count: item.data.size_count[0].total, distinct_items:item.data.distinct_items })})
+                this.setState({ items: item.data.listInventory, pagecount: Math.ceil((item.data.pagecount[0].count/20)), brand: item.data.listBrand, color: item.data.listColor, size: item.data.listSize, color_count: item.data.color_count[0].total, size_count: item.data.size_count[0].total, distinct_items:item.data.distinct_items })})
             .catch((err) => {
                 console.log(err);
             })
+    }
+
+    onPageClick(page , active) {
+        this.state.active.shift();
+        this.state.active.push(active);
+        this.state.pagination.length = 0;
+        this.state.pagination.push(page, 20)
+        this.setState({})
+        this.getInventoryList();
     }
 
     onInputClick = () => {
@@ -112,20 +149,23 @@ class AdminPage extends Component {
     }
 
     onSearchClick() {
-        axios.get(API_URL_1 + "/search_inventory", {
-            params: {
-                name: this.refs.searchName.value,
-                minPrice: this.refs.searchPriceMin.value,
-                maxPrice: this.refs.searchPriceMax.value,
-                gender: this.refs.searchGender.value,
-                brand: this.refs.searchBrand.value
-            }
-        })
-            .then(item => {
-                this.setState({ items: item.data.listInventory })})
-            .catch((err) => {
-                console.log(err);
-            })
+        if(this.state.search_status[0] === 0) {
+            this.state.search_status.shift();
+            this.state.search_status.push(1);
+        }
+        
+        if(this.state.search_status[0] !== 0) {
+            this.state.pagination.length = 0;
+            this.state.pagination.push(0, 20)
+        }
+        this.state.active.shift();
+        this.state.active.push(0);
+        this.pushPage();
+    }
+
+    async pushPage() {
+        await (this.props.history.push(`/admin?name=${this.refs.searchName.value}&minPrice=${this.refs.searchPriceMin.value}&maxPrice=${this.refs.searchPriceMax.value}&gender=${this.refs.searchGender.value}&brand=${this.refs.searchBrand.value}`))
+        this.getInventoryList();
     }
 
     renderOptionBrand = () => {
@@ -214,6 +254,7 @@ class AdminPage extends Component {
                     <Row>
                         <p>Gender</p>
                         <select ref="searchGender" class="form-control">
+                            <option value="">Gender</option>
                             <option value="Men">Men</option>
                             <option value="Women">Women</option>
                         </select>
@@ -289,7 +330,7 @@ class AdminPage extends Component {
                         <Row className="show-grid">
                         <hr />
                             <Col xs={12} align="center">
-                                <Pagination />
+                                <PaginationClass count={this.state.pagecount} PageClick={(page, active)=>this.onPageClick(page, active)} active={this.state.active[0]}/>
                             </Col>
                         </Row>
                     </Grid>
@@ -368,12 +409,6 @@ class AdminPage extends Component {
                                         </tr>
                                     </tbody>
                                 </Table>
-                            </Col>
-                        </Row>
-                        <Row className="show-grid">
-                        <hr />
-                            <Col xs={12} align="center">
-                                <Pagination />
                             </Col>
                         </Row>
                     </Grid>

@@ -31,12 +31,16 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
         this.props.onLogout();
     }
 
+    onLinkClick = (target) => {
+    this.props.history.push(target)
+    }
+
     renderNavbar = () => {   
         if(this.props.auth.username !== "") {
             return(
                 <Grid fluid>
                     <Row className="show-grid">
-                        <Navbar fixedTop={true} inverse collapseOnSelect fluid>
+                        <Navbar fixedTop={true} collapseOnSelect fluid className="navbar-css">
                         <Navbar.Header>
                             <Navbar.Brand>
                             <Link to="/">Boots</Link>
@@ -45,14 +49,14 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
                         </Navbar.Header>
                         <Navbar.Collapse>
                             <Nav>
-                            <NavItem eventKey={2}>
-                                <Link to="/catalog">Category</Link>
+                            <NavItem eventKey={2} className="header-button" onClick={()=>this.onLinkClick(`/catalog`)}>
+                                <h4 className="header-text">Category</h4>
                             </NavItem>
-                            <NavItem eventKey={4}>
-                            <Link to="/cart">Cart</Link>
+                            <NavItem eventKey={4} className="header-button">
+                            <Link to="/cart" className="header-text">Cart</Link>
                             </NavItem>
-                            <NavItem eventKey={4}>
-                            <Link to="/admin">Admin</Link>
+                            <NavItem eventKey={4} className="header-button">
+                            <Link to="/admin" className="header-text">Admin</Link>
                             </NavItem>
                             </Nav>
                             <Nav pullRight>
@@ -76,7 +80,7 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
         return(
             <Grid fluid className="no-margin">
                 <Row className="show-grid">
-                    <Navbar fixedTop={true} inverse collapseOnSelect fluid>
+                    <Navbar fixedTop={true} collapseOnSelect fluid className="navbar-css">
                         <Navbar.Header>
                             <Navbar.Brand>
                                 <Link to="/">Boots</Link>
@@ -85,25 +89,25 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
                         </Navbar.Header>
                         <Navbar.Collapse>
                             <Nav>
-                            <NavItem eventKey={2}>
-                                <Link to="/catalog">Category</Link>
+                            <NavItem eventKey={2} className="header-button">
+                                <Link to="/catalog" className="header-text">Category</Link>
                             </NavItem>
-                            <NavItem eventKey={2}>
-                                <Link to="/cart">Cart</Link>
+                            <NavItem eventKey={2} className="header-button">
+                                <Link to="/cart" className="header-text">Cart</Link>
                             </NavItem>
-                            <NavItem eventKey={4}>
-                                <Link to="/admin">Admin</Link>
+                            <NavItem eventKey={4} className="header-button">
+                                <Link to="/admin" className="header-text">Admin</Link>
                             </NavItem>
                             </Nav>
                             <Nav pullRight>      
-                            <NavItem>
+                            {/* <NavItem>
                             <FormControl type="text" ref="search" class="form-control" id="inputSearch" placeholder="Search Boots" style={{width:"400px"}}/>
-                            </NavItem>                                    
-                            <NavItem eventKey={1}>
-                                <Link to="/login">Login</Link>
+                            </NavItem>                                     */}
+                            <NavItem eventKey={1} className="header-button">
+                                <Link to="/login" className="header-text">Login</Link>
                             </NavItem>
-                            <NavItem eventKey={2}>
-                                <Link to="/register">Register</Link>
+                            <NavItem eventKey={2} className="header-button">
+                                <Link to="/register" className="header-text">Register</Link>
                             </NavItem>
                             </Nav>
                         </Navbar.Collapse>
