@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TransactionDetail from './TransactionDetail';
 import TransactionSelect from './TransactionSelect';
+import DateClass from './DatePickerClass';
 import { Grid, Row, Col, PageHeader, Button, Table } from 'react-bootstrap';
 import { API_URL_1 } from '../supports/api-url/apiurl';
 import axios from 'axios';
@@ -9,13 +10,12 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import rick from '../assets/rick.png';
-
 class ProfilePage extends Component {
     state = { transactions: [], transaction_select: []}
 
     componentWillMount() {
         this.getTransactionHistory();
+        console.log(this.state.transactions)
     }
 
     getTransactionHistory() {
@@ -33,12 +33,12 @@ class ProfilePage extends Component {
             })
     }
 
-    onTransactionSelect(id) {
-        axios.get(API_URL_1 + "/transaction_select", {
-            params: {
-                id: id
-            }
-        })
+    async onTransactionSelect(id) {
+        await (this.props.history.push(`/profile?transaction_id=` + id))
+        const search = this.props.location.search;
+        const params = new URLSearchParams(search);
+        const urlid = params.get('transaction_id');
+        axios.get(API_URL_1 + "/transaction_select?id=" + urlid)
             .then(item => {
                 this.setState({ transaction_select: item.data.transaction_select })
             })
@@ -109,7 +109,23 @@ class ProfilePage extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={2}></Col>
+                    <Col md={2}>
+                    <Row>
+                        <h4>Sort by Date:</h4>
+                    </Row>
+                    <Row>
+                        from
+                        <DateClass/>
+                    </Row>
+                    <Row>
+                        to
+                        <DateClass/>
+                    </Row>
+                    <Row>
+                        <br/>
+                        <input type="button" className="btn btn-success" value="sort" style={{width:"150px"}}/>
+                    </Row>
+                    </Col>
                     <Col md={4}>
                         <Row>
                             <h4>Transaction History</h4>

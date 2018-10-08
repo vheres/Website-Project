@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';  // React, { Component } -> destructuring
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem, Grid, Row, Col, FormControl, FormGroup, InputGroup, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { onLogout } from '../actions';
 import Cookies from 'universal-cookie';
@@ -52,11 +52,11 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
                             <NavItem eventKey={2} className="header-button" onClick={()=>this.onLinkClick(`/catalog`)}>
                                 <h4 className="header-text">Category</h4>
                             </NavItem>
-                            <NavItem eventKey={4} className="header-button">
-                            <Link to="/cart" className="header-text">Cart</Link>
+                            <NavItem eventKey={2} className="header-button" onClick={()=>this.onLinkClick(`/cart`)}>
+                                <h4 className="header-text">Cart</h4>
                             </NavItem>
-                            <NavItem eventKey={4} className="header-button">
-                            <Link to="/admin" className="header-text">Admin</Link>
+                            <NavItem eventKey={4} className="header-button" onClick={()=>this.onLinkClick(`/admin`)}>
+                                <h4 className="header-text">Admin</h4>
                             </NavItem>
                             </Nav>
                             <Nav pullRight>
@@ -89,25 +89,25 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
                         </Navbar.Header>
                         <Navbar.Collapse>
                             <Nav>
-                            <NavItem eventKey={2} className="header-button">
-                                <Link to="/catalog" className="header-text">Category</Link>
+                            <NavItem eventKey={2} className="header-button" onClick={()=>this.onLinkClick(`/catalog`)}>
+                                <h4 className="header-text">Category</h4>
                             </NavItem>
-                            <NavItem eventKey={2} className="header-button">
-                                <Link to="/cart" className="header-text">Cart</Link>
+                            <NavItem eventKey={2} className="header-button" onClick={()=>this.onLinkClick(`/cart`)}>
+                                <h4 className="header-text">Cart</h4>
                             </NavItem>
-                            <NavItem eventKey={4} className="header-button">
-                                <Link to="/admin" className="header-text">Admin</Link>
+                            <NavItem eventKey={4} className="header-button" onClick={()=>this.onLinkClick(`/admin`)}>
+                                <h4 className="header-text">Admin</h4>
                             </NavItem>
                             </Nav>
                             <Nav pullRight>      
                             {/* <NavItem>
                             <FormControl type="text" ref="search" class="form-control" id="inputSearch" placeholder="Search Boots" style={{width:"400px"}}/>
                             </NavItem>                                     */}
-                            <NavItem eventKey={1} className="header-button">
-                                <Link to="/login" className="header-text">Login</Link>
+                            <NavItem eventKey={1} className="header-button"  onClick={()=>this.onLinkClick(`/login`)}>
+                                <h4 className="header-text">Login</h4>
                             </NavItem>
-                            <NavItem eventKey={2} className="header-button">
-                                <Link to="/register" className="header-text">Register</Link>
+                            <NavItem eventKey={2} className="header-button"  onClick={()=>this.onLinkClick(`/register`)}>
+                                <h4 className="header-text">Register</h4>
                             </NavItem>
                             </Nav>
                         </Navbar.Collapse>
@@ -131,4 +131,4 @@ const mapStateToProps = (state) => {
     return { auth };
 }
 
-export default connect(mapStateToProps, { onLogout, keepLogin, cookieChecked })(Header);
+export default withRouter(connect(mapStateToProps, { onLogout, keepLogin, cookieChecked })(Header));

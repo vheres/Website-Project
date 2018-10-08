@@ -40,7 +40,7 @@ class AdminInput extends Component {
 
     renderProductColor = () => {
         const arrJSX = this.state.product_color.map((item, count) => {
-            return(<option value={count}>{item.color}</option>)
+            return(<option value={[count, item.color_id]}>{item.color}</option>)
         })
         return arrJSX;
     }
@@ -127,13 +127,14 @@ class AdminInput extends Component {
 
     removeVariant(id) {
         if(window.confirm('Are you sure?\nThis will delete both the selected product\'s variant and the variant\'s stock from database')) {
-            axios.delete(API_URL_1 + '/remove_variant?id=' + id, {
-                color_id: this.refs.optionColor.value
+            console.log(this.refs.optionColor.value[2])
+            axios.post(API_URL_1 + '/remove_variant?id=' + id, {
+                color_id: this.refs.optionColor.value[2]
             })
             .then((response) => {
                 alert("Delete Success!");
                 console.log(response);
-                this.setState({ items: response.data.listInventory })
+                this.setState({ variant: response.data.variant, product_color: response.data.product_color })
             })
             .catch((err) => {
                 alert("Delete Error!");
@@ -154,7 +155,7 @@ class AdminInput extends Component {
     }
     
     changeColor = (temp) => {
-        this.color_pick = temp.target.value;
+        this.color_pick = temp.target.value[0];
         console.log(this.state.stock_id)
         this.select_stock();
     }

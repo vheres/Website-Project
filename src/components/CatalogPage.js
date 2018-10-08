@@ -147,7 +147,7 @@ class CatalogPage extends Component {
                         <br/>
                     </Row>
                     <Row>
-                        <input type="button" class="btn btn-primary" style={{width:100}} value="A P P L Y" onClick={this.onSearchClick.bind(this)}/>
+                        <input type="button" class="btn btn-warning" style={{width:100}} value="A P P L Y" onClick={this.onSearchClick.bind(this)}/>
                     </Row>
                 </Col>
                 <Col xs={6}>

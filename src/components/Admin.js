@@ -80,12 +80,12 @@ class AdminPage extends Component {
             description: this.refs.description.value,
             price: this.refs.price.value,
             gender: this.refs.gender.value,
-            brand: this.refs.brand.value
+            brand: this.refs.brand.value,
         })
         .then((response) => {
             alert("Input Success!");
             console.log(response);
-            this.setState({ items: response.data.listInventory })
+            this.getInventoryList();
         })
     }
     onInputBrand = () => {
@@ -139,7 +139,7 @@ class AdminPage extends Component {
             .then((response) => {
                 alert("Delete Success!");
                 console.log(response);
-                this.setState({ items: response.data.listInventory })
+                this.getInventoryList();
             })
             .catch((err) => {
                 alert("Delete Error!");
@@ -282,7 +282,7 @@ class AdminPage extends Component {
                                     <th>Image</th>
                                     <th>Name</th>
                                     <th>Description</th>
-                                    <th>Price</th>
+                                    <th style={{width:"100px"}}>Price</th>
                                     <th>Gender</th>
                                     <th>Brand</th>
                                     <th>Color</th>
