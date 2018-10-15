@@ -13,6 +13,9 @@ class TransactionDetail extends Component {
             temp.push(d[i])
         }
         d = temp.join(``)
+        d = d.split('-')
+        d[2]++;
+        d = d.join('-')
         return d;
     }
 

@@ -71,6 +71,7 @@ class AdminPage extends Component {
         this.state.pagination.push(page, 20)
         this.setState({})
         this.getInventoryList();
+
     }
 
     onInputClick = () => {
@@ -419,7 +420,7 @@ class AdminPage extends Component {
 
     renderItemList = () => {
         return this.state.items.map(item =>
-            <AdminInput id={item.id} link={item.link} name={item.name} description={item.description} price={item.price} 
+            <AdminInput key={item.id} id={item.id} link={item.link} name={item.name} description={item.description} price={item.price} 
             gender={item.gender} brand={item.brand} brand_id={item.brand_id}  
             tempMount={this.getInventoryList.bind(this)} Color_Count={this.state.color_count} Size_Count={this.state.size_count}
             Option_Color={()=>this.renderOptionColor()} Option_Size={(mode)=>this.renderOptionSize(mode)} Option_Brand={()=>this.renderOptionBrand()}>

@@ -48,12 +48,6 @@ class App extends Component {
               <Header />
             </Col>
           </Row>
-          <br></br>
-          <Row className="show-grid">
-            <Col xs={12} >
-              <div className="header-box"></div>
-            </Col>
-          </Row>
           <Row className="show-grid" className="body-css">
             <Col xs={12} >
               <Route exact path="/" component={HomePage}/>

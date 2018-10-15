@@ -1,33 +1,24 @@
 import React, { Component } from 'react';
-import DatePicker from 'react-datepicker';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
 import moment from 'moment';
- 
-import 'react-datepicker/dist/react-datepicker.css';
- 
-// CSS Modules, react-datepicker-cssmodules.css
-// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
- 
+
 class DateClass extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      startDate: moment()
-    };
-    this.handleChange = this.handleChange.bind(this);
+  handleDayChange(selectedDay, modifiers, dayPickerInput) {
+    const input = dayPickerInput.getInput();
+    this.props.datePick(input);
   }
- 
-  handleChange(date) {
-    this.setState({
-      startDate: date
-    });
-  }
- 
+
   render() {
-    return <DatePicker className="form-control"
-        selected={this.state.startDate}
-        onChange={this.handleChange}
-    />;
+    return (
+      <div>
+        <DayPickerInput
+          placeholder={`${moment().format('YYYY-MM-DD')}`}
+          onDayChange = {this.handleDayChange.bind(this)}
+          
+        />
+      </div>
+    );
   }
 }
-
 export default DateClass;

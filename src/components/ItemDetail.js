@@ -5,7 +5,7 @@ class ItemDetail extends Component {
     render() {
         return (
             <Col xs={3} >
-                <Thumbnail src={this.props.Link} alt={this.props.Name} className="item-detail" onClick={() => this.props.detailButton(this.props.id)}>
+                <Thumbnail src={this.props.Link} alt={this.props.Name} className="item-detail item-holder" onClick={() => this.props.detailButton(this.props.id)}>
                     <Row style={{height:50}}>
                         <h4 align="center" className="text-ellipsis">{this.props.Name}</h4>
                         {/* <p className="item-text-detail">{this.props.Description}</p> */}

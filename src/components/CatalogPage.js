@@ -105,7 +105,7 @@ class CatalogPage extends Component {
     render() {
         return(
         <Grid fluid>
-            <Row className="show-grid">
+            <Row>
                 <Col xs={2}>
                 </Col>
                 <Col xs={8}>

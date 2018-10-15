@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Featured from './Featured';
 import CartDetail from './CartDetail';
+import FeaturedCarousel from './FeaturedCarousel';
 import { Grid, Row, Col, PageHeader, Button, Table } from 'react-bootstrap';
 import { API_URL_1 } from '../supports/api-url/apiurl';
 import axios from 'axios';
@@ -144,30 +145,19 @@ class CartPage extends Component {
                     </Table>
                     </Row>
                 </Grid>
+                <Row className="featured-container margin-top-30 margin-bottom-30 margin-wide">
                 <Row>
                     <Col xs={12}>
-                    <hr />
-                    <h3 align="center">Featured Products</h3>
-                    <br />
+                        <h1 className="text-center">Featured Products</h1>
+                        <div className="pointer featured-pointer"></div>
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={2}>
-                    </Col>
-                    <Col xs={2}>
-                        <Featured thumbImg={rick} />
-                    </Col>
-                    <Col xs={2}>
-                        <Featured thumbImg={rick} />
-                    </Col>
-                    <Col xs={2}>
-                        <Featured thumbImg={rick} />
-                    </Col>
-                    <Col xs={2}>
-                        <Featured thumbImg={rick} />
+                    <Col xsOffset={2} xs={8}>
+                        <FeaturedCarousel></FeaturedCarousel>
                     </Col>
                 </Row>
-                <hr />
+            </Row>
             </Grid>
             );
         }

@@ -5,23 +5,25 @@ import DateClass from './DatePickerClass';
 import { Grid, Row, Col, PageHeader, Button, Table } from 'react-bootstrap';
 import { API_URL_1 } from '../supports/api-url/apiurl';
 import axios from 'axios';
+import moment from 'moment';
 
 
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
+
 class ProfilePage extends Component {
-    state = { transactions: [], transaction_select: []}
+    state = { transactions: [], transaction_select: [], date: [moment().format("YYYY-MM-DD"), moment().format("YYYY-MM-DD")]}
 
     componentWillMount() {
         this.getTransactionHistory();
-        console.log(this.state.transactions)
     }
 
     getTransactionHistory() {
         axios.get(API_URL_1 + "/transaction_history", {
             params: {
-                id: this.props.auth.id
+                id: this.props.auth.id,
+                date: this.state.date
             }
         })
             .then(item => {
@@ -68,6 +70,42 @@ class ProfilePage extends Component {
         }
     }
 
+    onDatePick() {
+        return (
+            {
+                startDate: (temp) => {
+                    this.state.date[0] = temp.value;
+                },
+                endDate: (temp) => {
+                    this.state.date[1] = temp.value;
+                },
+                filterDate: () => this.getTransactionHistory()
+            }
+        )
+    }
+
+    renderDatePicker() {
+        return (
+            <Col md={2}>
+                <Row>
+                    <h4>Sort by Date:</h4>
+                </Row>
+                <Row>
+                    from
+                    <DateClass datePick={(temp)=>this.onDatePick()['startDate'](temp)}/>
+                </Row>
+                <Row>
+                    to
+                    <DateClass datePick={(temp)=>this.onDatePick()['endDate'](temp)}/>
+                </Row>
+                <Row>
+                    <br/>
+                    <input type="button" className="btn btn-success" value="sort" style={{width:"150px"}} onClick={()=>this.onDatePick()['filterDate']()}/>
+                </Row>
+             </Col>
+        )
+    }
+
     renderProfilePage() {
         return(
             <Grid fluid>
@@ -109,23 +147,7 @@ class ProfilePage extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={2}>
-                    <Row>
-                        <h4>Sort by Date:</h4>
-                    </Row>
-                    <Row>
-                        from
-                        <DateClass/>
-                    </Row>
-                    <Row>
-                        to
-                        <DateClass/>
-                    </Row>
-                    <Row>
-                        <br/>
-                        <input type="button" className="btn btn-success" value="sort" style={{width:"150px"}}/>
-                    </Row>
-                    </Col>
+                    {this.renderDatePicker()}
                     <Col md={4}>
                         <Row>
                             <h4>Transaction History</h4>

@@ -27,6 +27,17 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
         }
     }
 
+    onSearch(enter) {
+        console.log(enter.which)
+        if (enter.which == 13) {
+            this.handleOnSearch()
+        }  
+    }
+
+    handleOnSearch = () => {
+        console.log('hello')
+    }
+
     onLogoutClick = () => {
         this.props.onLogout();
     }
@@ -50,7 +61,7 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
                         <Navbar.Collapse>
                             <Nav>
                             <NavItem eventKey={2} className="header-button" onClick={()=>this.onLinkClick(`/catalog`)}>
-                                <h4 className="header-text">Category</h4>
+                                <h4 className="header-text">Shop</h4>
                             </NavItem>
                             <NavItem eventKey={2} className="header-button" onClick={()=>this.onLinkClick(`/cart`)}>
                                 <h4 className="header-text">Cart</h4>
@@ -61,7 +72,7 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
                             </Nav>
                             <Nav pullRight>
                             <NavItem>
-                                <FormControl type="text" ref="search" class="form-control" id="inputSearch" placeholder="Search Boots" style={{width:"400px"}}/> 
+                                <FormControl type="text" id ="search" ref="search" class="form-control" id="inputSearch" placeholder="Search Boots or Brands" style={{width:"400px"}} onKeyPress={(temp)=>this.onSearch(temp)}/> 
                             </NavItem>       
                             <NavDropdown eventKey={1} title={"Hello, " + this.props.auth.username} id="basic-nav-dropdown">
                                 <Link to="/profile"><MenuItem className="btn btn-default" style={{width:"100%"}}><Link to="/profile">Profile</Link></MenuItem></Link>
@@ -90,7 +101,7 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
                         <Navbar.Collapse>
                             <Nav>
                             <NavItem eventKey={2} className="header-button" onClick={()=>this.onLinkClick(`/catalog`)}>
-                                <h4 className="header-text">Category</h4>
+                                <h4 className="header-text">Shop</h4>
                             </NavItem>
                             <NavItem eventKey={2} className="header-button" onClick={()=>this.onLinkClick(`/cart`)}>
                                 <h4 className="header-text">Cart</h4>
@@ -100,9 +111,9 @@ class Header extends Component { //kalo gak pake destructuring, tulisnya React.C
                             </NavItem>
                             </Nav>
                             <Nav pullRight>      
-                            {/* <NavItem>
-                            <FormControl type="text" ref="search" class="form-control" id="inputSearch" placeholder="Search Boots" style={{width:"400px"}}/>
-                            </NavItem>                                     */}
+                            <NavItem>
+                                <FormControl type="text" id="search" ref="search" class="form-control" id="inputSearch" placeholder="Search Boots or Brands" style={{width:"400px"}} onKeyPress={(temp)=>this.onSearch(temp)}/> 
+                            </NavItem>
                             <NavItem eventKey={1} className="header-button"  onClick={()=>this.onLinkClick(`/login`)}>
                                 <h4 className="header-text">Login</h4>
                             </NavItem>

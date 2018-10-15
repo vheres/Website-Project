@@ -20,6 +20,8 @@ class AdminInput extends Component {
             }
         })
             .then(item => {
+                console.log(item.data.variant)
+                console.log(item.data.product_color)
                 this.setState({ variant: item.data.variant, product_color: item.data.product_color })
                 this.select_stock();
             })

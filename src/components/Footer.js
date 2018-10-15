@@ -13,54 +13,56 @@ class Footer extends Component {
                     <Col xs={2} >
                     </Col>
                     <Col xs={2} >
-                        <h3>GET IN TOUCH WITH US</h3>
-                        <hr />
-                        Phone: 012 3456 7891<br /><br />
-                        Monday-Friday: 9.00 am - 8.00 pm<br />
-                        Saturday: 10.00 am - 6.00 pm<br /><br />
-                        support@couland.com
+                        <h3>GET IN TOUCH</h3>
+                        <div className="pointer"></div>
+                        <p className="dark-text"><strong>Phone: 012 3456 7891</strong></p>
+                        <span className="dark-text"><strong>Monday-Friday: </strong></span><span className="white-text">9.00 am - 8.00 pm</span><br/>
+                        <span className="dark-text"><strong>Saturday: </strong></span><span className="white-text">10.00 am - 6.00 pm</span><br/><br/>
+                        <p className="dark-text"><strong>support@boots.com</strong></p>
                     </Col>
                     <Col xs={2} >
                         <h3>OUR MOBILE APP</h3>
-                        <hr />
+                        <div className="pointer"></div>
                     </Col>
                     <Col xs={2} >
                         <h3>ABOUT US</h3>
-                        <hr />
-                        <a href='#'>Carrers</a><br />
-                        <a href='#'>About Unishop</a><br />
-                        <a href='#'>Our Story</a><br />
-                        <a href='#'>Services</a><br />
-                        <a href='#'>Our Blog</a>
+                        <div className="pointer"></div>
+                        <ul>
+                            <li><a href='#' className="dark-link"><strong>Carrers</strong></a></li>
+                            <li><a href='#' className="dark-link"><strong>About Unishop</strong></a></li>
+                            <li><a href='#' className="dark-link"><strong>Our Story</strong></a></li>
+                            <li><a href='#' className="dark-link"><strong>Services</strong></a></li>
+                            <li><a href='#' className="dark-link"><strong>Our Blog</strong></a></li>
+                        </ul> 
                     </Col>
                     <Col xs={2} >
                         <h3>ACCOUNT INFO</h3>
-                        <hr />
-                        <a href='#'>Your Account</a><br />
-                        <a href='#'>Shipping Rates & Policies</a><br />
-                        <a href='#'>Refunds & Replacements</a><br />
-                        <a href='#'>Taxes</a><br />
-                        <a href='#'>Delivery Info</a><br />
-                        <a href='#'>Affiliate Program</a>
+                        <div className="pointer"></div>
+                        <ul>
+                            <li><a href='#' className="dark-link"><strong>Your Account</strong></a></li>
+                            <li><a href='#' className="dark-link"><strong>Shipping Rates & Policies</strong></a></li>
+                            <li><a href='#' className="dark-link"><strong>Refunds & Replacements</strong></a></li>
+                            <li><a href='#' className="dark-link"><strong>Taxes</strong></a></li>
+                            <li><a href='#' className="dark-link"><strong>Delivery Info</strong></a></li>
+                            <li><a href='#' className="dark-link"><strong>Affiliate Program</strong></a></li>
+                        </ul>
                     </Col>
                 </Row>
-                
-                <hr />
-
+                <hr/>
                 <Row className="show-grid">
                     <Col xs={2}>
                     </Col>
                     <Col xs={1}>
-                        <Image src={rick3} circle responsive />
+                        <Image src="https://cdn4.iconfinder.com/data/icons/e-commerce-5/512/Credit_Card-3-512.png" responsive />
                     </Col>
                     <Col xs={1}>
-                        <Image src={rick3} circle responsive />
+                        <Image src="https://cdn1.iconfinder.com/data/icons/simplicity-payment-methods/512/visa-512.png" responsive />
                     </Col>
                     <Col xs={1}>
-                        <Image src={rick3} circle responsive />
+                        <Image src="https://cdn1.iconfinder.com/data/icons/simplicity-payment-methods/512/mastercard-512.png" responsive />
                     </Col>
                     <Col xs={1}>
-                        <Image src={rick3} circle responsive />
+                        <Image src="https://cdn1.iconfinder.com/data/icons/simplicity-payment-methods/512/maestro-512.png" responsive />
                     </Col>
                     <Col xs={4}>
                         <Grid fluid>
@@ -69,7 +71,7 @@ class Footer extends Component {
                                 <FormControl type="email" placeholder="Email" />
                                 </Col>
                                 <Col xs={2}>
-                                <Button bsStyle="info">SUBSCRIBE!</Button>
+                                <input type="button" value="SUBSCRIBE!" className="btn btn-danger"></input>
                                 </Col>
                             </Row>
                             <Row className="show-grid">
@@ -81,9 +83,6 @@ class Footer extends Component {
                         </Grid>
                     </Col>
                 </Row>
-
-                <hr />
-
                 </Grid>
         );
     }

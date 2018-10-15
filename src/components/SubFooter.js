@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Image, Grid, Row, Col  } from 'react-bootstrap';
+import BrandCarousel from './BrandCarousel';
 
 import rick from '../assets/rick.png';
 import rick2 from '../assets/rick2.jpg';
@@ -12,57 +13,56 @@ import img4 from '../assets/img/services/04.png';
 class SubFooter extends Component {
     render() {
         return (
-            <Grid fluid>
-
-                <hr />
-
-                <Row className="show-grid">
-                    <Col xs={12} >
-                    <Image src={rick2} responsive />
+            <Grid fluid className="subFooter-css">
+                <Row className="background-white">
+                    <Row>
+                        <Col xs={12}>
+                            <h1 className="text-center">Our Brands</h1>
+                            <div className="pointer featured-pointer"></div>
+                        </Col>
+                    </Row>
+                    <Row className="margin-bottom-30">
+                        <Col xsOffset={3} xs={6}>
+                            <BrandCarousel></BrandCarousel>
+                        </Col>
+                    </Row>
+                </Row>
+                <Row className="margin-top-30">
+                    <Col xs={2} >
+                    </Col>
+                    <Col xs={2} >
+                        <Image className="subFooter-image" src={img1} style={{width:"50%"}} circle responsive />
+                    </Col>
+                    <Col xs={2} >
+                        <Image className="subFooter-image" src={img2} style={{width:"50%"}} circle responsive />
+                    </Col>
+                    <Col xs={2} >
+                        <Image className="subFooter-image" src={img3} style={{width:"50%"}} circle responsive />
+                    </Col>
+                    <Col xs={2} >
+                        <Image className="subFooter-image" src={img4} style={{width:"50%"}} circle responsive />
                     </Col>
                 </Row>
-
-                <hr />
-
-                <Row className="show-grid">
+                <Row className="margin-bottom-30">
                     <Col xs={2} >
                     </Col>
                     <Col xs={2} >
-                        <Image src={img1} circle responsive />
+                        <h3 className="text-center">Free Worldwide Shipping</h3>
+                        <p className="text-center">Free shipping for all orders over $300</p>
                     </Col>
                     <Col xs={2} >
-                        <Image src={img2} circle responsive />
+                        <h3 className="text-center">Money Back Guarantee</h3>
+                        <p className="text-center">We return money within 30 days</p>
                     </Col>
                     <Col xs={2} >
-                        <Image src={img3} circle responsive />
+                        <h3 className="text-center">24/7 Customer Support</h3>
+                        <p className="text-center">Friendly 24/7 customer support</p>
                     </Col>
                     <Col xs={2} >
-                        <Image src={img4} circle responsive />
-                    </Col>
-                </Row>
-                <Row className="show-grid">
-                    <Col xs={2} >
-                    </Col>
-                    <Col xs={2} >
-                        <h3 align="center">Title</h3>
-                        <p align="center">Description</p>
-                    </Col>
-                    <Col xs={2} >
-                        <h3 align="center">Title</h3>
-                        <p align="center">Description</p>
-                    </Col>
-                    <Col xs={2} >
-                        <h3 align="center">Title</h3>
-                        <p align="center">Description</p>
-                    </Col>
-                    <Col xs={2} >
-                        <h3 align="center">Title</h3>
-                        <p align="center">Description</p>
+                        <h3 className="text-center">Secure Online Payment</h3>
+                        <p className="text-center">We posess SSL / Secure Certificate</p>
                     </Col>
                 </Row>
-
-                <hr />
-
                 </Grid>
         );
     }

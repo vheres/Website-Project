@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Carouselclass from './Carousel';
 import Featured from './Featured';
 import StarRating from './StarRating';
+import FeaturedCarousel from './FeaturedCarousel';
 import { Grid, Row, Col, PageHeader, Button } from 'react-bootstrap';
 import { API_URL_1 } from '../supports/api-url/apiurl';
 import axios from 'axios';
@@ -58,6 +59,24 @@ class DetailPage extends Component {
                 console.log(err);
             })
         }
+    }
+
+    async onFeaturedClick(target) {
+        await this.props.history.push(target)
+        const search = this.props.location.search;
+        const params = new URLSearchParams(search);
+        const id = params.get('id');
+        console.log('id:', id);
+        axios.get(API_URL_1 + "/detail_select_inventory", {
+            params: {
+                id
+            }
+        }).then(item => {
+                this.setState({ items: item.data.detail_select[0], variant: item.data.variant, product_color: item.data.product_color, size: item.data.size, color_count: item.data.color_count[0].total, size_count: item.data.size_count[0].total })
+                this.select_stock();
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     renderAddToCartBTN = () => {
@@ -133,7 +152,7 @@ class DetailPage extends Component {
     render() {
         return(
         <Grid fluid>
-            <Row className="show-grid">
+            <Row className="margin-top-15">
                 <Col xs={2}>
                 </Col>
                 <Col xs={8}>
@@ -207,30 +226,19 @@ class DetailPage extends Component {
                     </Row>
                 </Col>
             </Row>
-            <Row>
-                <Col xs={12}>
-                <hr />
-                <h3 align="center">Featured Products</h3>
-                <br />
-                </Col>
+            <Row className="featured-container margin-top-30 margin-bottom-30 margin-wide">
+                <Row>
+                    <Col xs={12}>
+                        <h1 className="text-center">Featured Products</h1>
+                        <div className="pointer featured-pointer"></div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xsOffset={2} xs={8}>
+                        <FeaturedCarousel FeaturedClick={(temp)=>this.onFeaturedClick(temp)}></FeaturedCarousel>
+                    </Col>
+                </Row>
             </Row>
-            <Row>
-                <Col xs={2}>
-                </Col>
-                <Col xs={2}>
-                    <Featured thumbImg={rick} />
-                </Col>
-                <Col xs={2}>
-                    <Featured thumbImg={rick} />
-                </Col>
-                <Col xs={2}>
-                    <Featured thumbImg={rick} />
-                </Col>
-                <Col xs={2}>
-                    <Featured thumbImg={rick} />
-                </Col>
-            </Row>
-            <hr />
         </Grid>
         );
     }
