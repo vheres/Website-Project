@@ -19,10 +19,16 @@ class Footer extends Component {
                         <span className="dark-text"><strong>Monday-Friday: </strong></span><span className="white-text">9.00 am - 8.00 pm</span><br/>
                         <span className="dark-text"><strong>Saturday: </strong></span><span className="white-text">10.00 am - 6.00 pm</span><br/><br/>
                         <p className="dark-text"><strong>support@boots.com</strong></p>
+                        <i className="fa fa-instagram sm-icon"></i>{' '}
+                        <i className="fa fa-facebook-square sm-icon"></i>{' '}
+                        <i className="fa fa-twitter-square sm-icon"></i>{' '}
+                        <i className="fa fa-google-plus-square sm-icon"></i>
                     </Col>
                     <Col xs={2} >
                         <h3>OUR MOBILE APP</h3>
                         <div className="pointer"></div>
+                        <img src="https://flexiloans.com/wp-content/uploads/2015/09/store-google-play.png" style={{width:"70%"}}></img>
+                        <img src="http://ctrlconsole.com/images/AppStore_Download.png" style={{width:"70%"}}></img>
                     </Col>
                     <Col xs={2} >
                         <h3>ABOUT US</h3>

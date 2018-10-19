@@ -32,7 +32,7 @@ class DetailPage extends Component {
     }
 
     onAddToCartClick() {
-        if ( this.props.auth.username === '') {
+        if ( this.props.auth.firstname === '') {
             this.props.history.push('/login')
         }
         else {

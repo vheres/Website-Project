@@ -149,6 +149,12 @@ class AdminPage extends Component {
         }  
     }
 
+    onSearch(enter) {
+        if (enter.which == 13) {
+            this.onSearchClick();
+        }
+    }
+
     onSearchClick() {
         if(this.state.search_status[0] === 0) {
             this.state.search_status.shift();
@@ -243,13 +249,13 @@ class AdminPage extends Component {
                 <Col xs={2}>
                     <Row>
                         <p>Product's Name</p>
-                        <input type="text" ref="searchName" class="form-control" id="inputSearchName" placeholder="Name" />
+                        <input type="text" ref="searchName" class="form-control" id="inputSearchName" placeholder="Name" onKeyPress={this.onSearch.bind(this)}/>
                         <br/>
                     </Row>
                     <Row>
                         <p>Product's Price</p>
-                        <input type="number" ref="searchPriceMin" class="form-control" id="inputSearchPriceMin" placeholder="Min Price" step="10000"/>
-                        <input type="number" ref="searchPriceMax" class="form-control" id="inputSearchPriceMax" placeholder="Max Price" step="10000"/>
+                        <input type="number" ref="searchPriceMin" class="form-control" id="inputSearchPriceMin" placeholder="Min Price" step="10000" onKeyPress={this.onSearch.bind(this)}/>
+                        <input type="number" ref="searchPriceMax" class="form-control" id="inputSearchPriceMax" placeholder="Max Price" step="10000" onKeyPress={this.onSearch.bind(this)}/>
                         <br/>
                     </Row>
                     <Row>

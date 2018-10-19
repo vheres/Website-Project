@@ -6755,6 +6755,15 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+.Title-Font {
+  font-family: 'Paytone One';
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1.2;
+}
+.sm-icon {
+  font-size: 40px;
+}
 .NavItemMargin {
   margin-left: 20px;
 }
@@ -6856,6 +6865,14 @@ button.close {
 .margin-top-15 {
   margin-top: 15px;
 }
+.margin-search-bar {
+  margin-top: -6px;
+}
+.react-select-css {
+  margin: 0;
+  position: relative;
+  top: 15px;
+}
 .margin-bottom-15 {
   margin-bottom: 15px;
 }
@@ -6864,6 +6881,10 @@ button.close {
 }
 .margin-bottom-30 {
   margin-bottom: 30px;
+}
+.margin-left-right-15 {
+  margin-left: 15px;
+  margin-right: 15px;
 }
 .homepage-css {
   margin-left: -30px;
@@ -6986,7 +7007,8 @@ button.close {
   background-color: white;
 }
 .item-holder {
-  height: 300px;
+  height: 330px;
+  width: 200px;
   margin-top: 10px;
   margin-bottom: 10px;
   position: relative;
@@ -6999,3 +7021,87 @@ button.close {
   border: 3px solid rgb(245, 167, 22);
 }
 
+/* button */
+.btn-orange {
+  color: #fff;
+  background-color: #e7a11f;
+  border-color: #a3731a;
+}
+.btn-orange:focus,
+.btn-orange.focus {
+  color: #fff;
+  background-color: #c08619;
+  border-color: #755313;
+}
+.btn-orange:hover {
+  color: #fff;
+  background-color: #c08619;
+  border-color: #755313;
+}
+.btn-orange:active,
+.btn-orange.active,
+.open > .dropdown-toggle.btn-orange {
+  color: #fff;
+  background-color: #c08619;
+  border-color: #755313;
+}
+.btn-orange:active:hover,
+.btn-orange.active:hover,
+.open > .dropdown-toggle.btn-orange:hover,
+.btn-orange:active:focus,
+.btn-orange.active:focus,
+.open > .dropdown-toggle.btn-orange:focus,
+.btn-orange:active.focus,
+.btn-orange.active.focus,
+.open > .dropdown-toggle.btn-orange.focus {
+  color: #fff;
+  background-color: #c08619;
+  border-color: #755313;
+}
+.btn-orange:active,
+.btn-orange.active,
+.open > .dropdown-toggle.btn-orange {
+  background-image: none;
+}
+.btn-orange.disabled:hover,
+.btn-orange[disabled]:hover,
+fieldset[disabled] .btn-orange:hover,
+.btn-orange.disabled:focus,
+.btn-orange[disabled]:focus,
+fieldset[disabled] .btn-orange:focus,
+.btn-orange.disabled.focus,
+.btn-orange[disabled].focus,
+fieldset[disabled] .btn-orange.focus {
+  background-color: #c08619;
+  border-color: #755313;
+}
+.btn-orange .badge {
+  color: #b77333;
+  background-color: #fff;
+}
+.shopping-cart {
+  display: flex;
+  margin-top: 100px;
+  margin-bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 250px;
+}
+.back-to-shop {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+}
+.user-icon {
+  font-size: 26px;
+  margin-top:5px;
+}
+.register-form-text {
+  line-height: 1.4;
+}
+.profile-edit-icon {
+  font-size: 28px;
+  position: relative;
+  top: 15px;
+}

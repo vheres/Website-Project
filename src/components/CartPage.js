@@ -86,10 +86,14 @@ class CartPage extends Component {
         return this.totalPrice;
     }
 
+    backToShop() {
+        this.props.history.push(`/catalog`)
+    }
+
     renderItemList = () => {
         console.log(this.state.carts)
         return this.state.carts.map((item, count) =>
-            <CartDetail count={count + 1} key={item.id} id={item.id} user_id={item.user_id} username={item.username} product_id={item.product_id} link={item.link} product_name={item.product_name} 
+            <CartDetail count={count + 1} key={item.id} id={item.id} user_id={item.user_id} firstname={item.firstname} product_id={item.product_id} link={item.link} product_name={item.product_name} 
             gender={item.gender} brand_id={item.brand_id} brand={item.brand} color_id={item.color_id} color={item.color} size_id={item.size_id} size={item.size} 
             quantity={item.quantity} price={item.price}>
             <input type="button" className="btn btn-danger" value="Remove" style={{width:"100px"}} onClick={()=>this.onRemoveClick(item.id)}/>
@@ -99,67 +103,94 @@ class CartPage extends Component {
 
     render() {
         if (this.props.auth.cookieCheck === true) {
-        if (this.props.auth.username !== "") {
-            return(
-            <Grid fluid>
-                <Row className="show-grid">
-                    <Col xs={2}>
-                    </Col>
-                    <Col xs={8}>
-                        <PageHeader>
-                        Cart
-                        </PageHeader>
-                    </Col>
-                </Row>
-                <Grid>
-                    <Row>
-                    <Table responsive>
-                        <thead>
-                            <tr>
-                            <th>No.</th>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Gender</th>
-                            <th>Brand</th>
-                            <th>Color</th>
-                            <th>Size</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th><input type="button" className="btn btn-warning" value="Clear Cart" style={{width:"100px"}}/></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.renderItemList()}
-                            <tr>
-                                <td colSpan={7}></td>
-                                <td>Total Price: </td>
-                                <td>${this.calculateTotalPrice()}</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td><input type="button" className="btn btn-primary" value="Back to Catalog" style={{width:"125px"}}/></td>
-                                <td colSpan={8}></td>
-                                <td><input type="button" className="btn btn-success" value="Check Out" style={{width:"100px"}} onClick={()=>this.onCheckOutClick()}/></td>
-                            </tr>
-                        </tbody>
-                    </Table>
+        if (this.props.auth.firstname !== "") {
+            if (this.state.carts.length != 0) {
+                return(
+                    <Grid fluid>
+                        <Row className="show-grid">
+                            <Col xs={2}>
+                            </Col>
+                            <Col xs={8}>
+                                <PageHeader>
+                                Cart
+                                </PageHeader>
+                            </Col>
+                        </Row>
+                        <Grid>
+                            <Row>
+                            <Table responsive>
+                                <thead>
+                                    <tr>
+                                    <th>No.</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>Brand</th>
+                                    <th>Color</th>
+                                    <th>Size</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th><input type="button" className="btn btn-warning" value="Clear Cart" style={{width:"100px"}}/></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {this.renderItemList()}
+                                    <tr>
+                                        <td colSpan={7}></td>
+                                        <td>Total Price: </td>
+                                        <td>${this.calculateTotalPrice()}</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="button" className="btn btn-primary" value="Back to Catalog" style={{width:"125px"}}/></td>
+                                        <td colSpan={8}></td>
+                                        <td><input type="button" className="btn btn-success" value="Check Out" style={{width:"100px"}} onClick={()=>this.onCheckOutClick()}/></td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                            </Row>
+                        </Grid>
+                        <Row className="featured-container margin-top-30 margin-bottom-30 margin-wide">
+                        <Row>
+                            <Col xs={12}>
+                                <h1 className="text-center">Featured Products</h1>
+                                <div className="pointer featured-pointer"></div>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xsOffset={2} xs={8}>
+                                <FeaturedCarousel></FeaturedCarousel>
+                            </Col>
+                        </Row>
                     </Row>
-                </Grid>
-                <Row className="featured-container margin-top-30 margin-bottom-30 margin-wide">
-                <Row>
-                    <Col xs={12}>
-                        <h1 className="text-center">Featured Products</h1>
-                        <div className="pointer featured-pointer"></div>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xsOffset={2} xs={8}>
-                        <FeaturedCarousel></FeaturedCarousel>
-                    </Col>
-                </Row>
-            </Row>
-            </Grid>
-            );
+                    </Grid>
+                );
+            }
+            else {
+                return (
+                    <Grid fluid>
+                    <Row>
+                        <img src="https://www.pngarts.com/files/3/Ecommerce-Shopping-Cart-Transparent-Background-PNG.png" className="shopping-cart"></img>
+                        <h4 className="text-center">Your cart is empty!</h4>
+                        <input type="button" className="btn btn-success back-to-shop" value="Back to Shop" onClick={()=>this.backToShop()}></input>
+                    </Row>
+                    <Row className="featured-container margin-top-30 margin-bottom-30 margin-wide">
+                        <Row>
+                            <Col xs={12}>
+                                <h1 className="text-center">Featured Products</h1>
+                                <div className="pointer featured-pointer"></div>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xsOffset={2} xs={8}>
+                                <FeaturedCarousel></FeaturedCarousel>
+                            </Col>
+                        </Row>
+                    </Row>
+                    </Grid>
+                )
+            }
+            
         }
         return <Redirect to="/login"/>  
     }

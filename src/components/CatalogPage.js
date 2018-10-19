@@ -17,22 +17,84 @@ class CatalogPage extends Component {
         this.getInventoryList(); 
     }
 
+    componentWillReceiveProps(newProps) {
+        this.state.active.shift();
+        this.state.active.push(0);
+        this.state.pagination.length = 0;
+        this.state.pagination.push(0, 20)
+        const search = newProps.location.search;
+        const params = new URLSearchParams(search);
+        if (params.get('name') == null) {
+            var name = ''
+        } else {
+            var name = params.get('name')
+        }
+        if (params.get('minPrice') == null) {
+            var minPrice = ''
+        } else {
+            var minPrice = params.get('minPrice')
+        }
+        if (params.get('maxPrice') == null) {
+            var maxPrice = ''
+        } else {
+            var maxPrice = params.get('maxPrice')
+        }
+        if (params.get('gender') == null) {
+            var gender = ''
+        } else {
+            var gender = params.get('gender')
+        }
+        if (params.get('brand') == null) {
+            var brand = ''
+        } else {
+            var brand = params.get('brand')
+        }
+        
+        axios.get(API_URL_1 + "/inventory", {
+            params: {
+                name: name,
+                minPrice: minPrice,
+                maxPrice: maxPrice,
+                gender: gender,
+                brand: brand,
+                pagination: this.state.pagination
+            }
+        })
+            .then(item => {
+                console.log(item);
+                    this.setState({ items: item.data.listInventory, brand: item.data.listBrand, pagecount: Math.ceil((item.data.pagecount[0].count/20)) })
+            }).catch((err) => {
+                console.log(err);
+            });       
+    }
+
     getInventoryList() {
         const search = this.props.location.search;
         const params = new URLSearchParams(search);
-        if(search.length == 0) {
-            var name = '';
-            var minPrice = '';
-            var maxPrice = '';
-            var gender = '';
-            var brand = '';
+        if (params.get('name') == null) {
+            var name = ''
+        } else {
+            var name = params.get('name')
         }
-        else {
-            var name = params.get('name');
-            var minPrice = params.get('minPrice');
-            var maxPrice = params.get('maxPrice');
-            var gender = params.get('gender');
-            var brand = params.get('brand');
+        if (params.get('minPrice') == null) {
+            var minPrice = ''
+        } else {
+            var minPrice = params.get('minPrice')
+        }
+        if (params.get('maxPrice') == null) {
+            var maxPrice = ''
+        } else {
+            var maxPrice = params.get('maxPrice')
+        }
+        if (params.get('gender') == null) {
+            var gender = ''
+        } else {
+            var gender = params.get('gender')
+        }
+        if (params.get('brand') == null) {
+            var brand = ''
+        } else {
+            var brand = params.get('brand')
         }
         
         axios.get(API_URL_1 + "/inventory", {
@@ -61,6 +123,12 @@ class CatalogPage extends Component {
         this.setState({})
         this.getInventoryList();
     }
+
+    onSearch(enter) {
+        if (enter.which == 13) {
+            this.onSearchClick();
+        }
+    }
     
     onSearchClick() {
         if(this.state.search_status[0] === 0) {
@@ -75,12 +143,37 @@ class CatalogPage extends Component {
         this.state.active.shift();
         this.state.active.push(0);
         this.pushPage();
-        // this.props.history.push(`/catalog?name=${this.refs.searchName.value}&minPrice=${this.refs.searchPriceMin.value}&maxPrice=${this.refs.searchPriceMax.value}&gender=${this.refs.searchGender.value}&brand=${this.refs.searchBrand.value}`)
-        // this.getInventoryList();
     }
 
     async pushPage() {
-        await (this.props.history.push(`/catalog?name=${this.refs.searchName.value}&minPrice=${this.refs.searchPriceMin.value}&maxPrice=${this.refs.searchPriceMax.value}&gender=${this.refs.searchGender.value}&brand=${this.refs.searchBrand.value}`))
+        var query = [];
+        var strQuery = ``;
+        if ( this.refs.searchName.value !== "") {
+            query.push(`name=${this.refs.searchName.value}`) 
+        }
+        if ( this.refs.searchPriceMin.value !== "") {
+            query.push(`minPrice=${this.refs.searchPriceMin.value}`)
+        }
+        if ( this.refs.searchPriceMax.value !== "") {
+            query.push(`maxPrice=${this.refs.searchPriceMax.value}`)
+        }
+        if ( this.refs.searchGender.value !== "") {
+            query.push(`gender=${this.refs.searchGender.value}`)
+        }
+        if ( this.refs.searchBrand.value !== "") {
+            query.push(`brand=${this.refs.searchBrand.value}`)
+        }
+        query.map((item,count) => {
+            if (count < (query.length-1)) {
+                strQuery += `${item}&`
+            }
+            else {
+                strQuery +=`${item}`
+            }
+        })
+        console.log(strQuery)
+        // await (this.props.history.push(`/catalog?name=${this.refs.searchName.value}&minPrice=${this.refs.searchPriceMin.value}&maxPrice=${this.refs.searchPriceMax.value}&gender=${this.refs.searchGender.value}&brand=${this.refs.searchBrand.value}`))
+        await (this.props.history.push(`/catalog?${strQuery}`))
         this.getInventoryList();
     }
 
@@ -120,13 +213,13 @@ class CatalogPage extends Component {
                 <Col xs={2}>
                     <Row>
                         <p>Product's Name</p>
-                        <input type="text" ref="searchName" class="form-control" id="inputSearchName" placeholder="Name" />
+                        <input type="text" ref="searchName" class="form-control" id="inputSearchName" placeholder="Name" onKeyPress={this.onSearch.bind(this)}/>
                         <br/>
                     </Row>
                     <Row>
                         <p>Product's Price</p>
-                        <input type="number" ref="searchPriceMin" class="form-control" id="inputSearchPriceMin" placeholder="Min Price" step="10"/>
-                        <input type="number" ref="searchPriceMax" class="form-control" id="inputSearchPriceMax" placeholder="Max Price" step="10"/>
+                        <input type="number" ref="searchPriceMin" class="form-control" id="inputSearchPriceMin" placeholder="Min Price" step="10" onKeyPress={this.onSearch.bind(this)}/>
+                        <input type="number" ref="searchPriceMax" class="form-control" id="inputSearchPriceMax" placeholder="Max Price" step="10" onKeyPress={this.onSearch.bind(this)}/>
                         <br/>
                     </Row>
                     <Row>

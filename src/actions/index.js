@@ -11,10 +11,10 @@ export const onLogin = (user) => {
                 }
 
             }).then(user => {
-                console.log(user.data.username);
+                console.log(user.data.firstname);
                 dispatch ({
                     type: "USER_LOGIN_SUCCESS",
-                    payload: { username: user.data.username, email: user.data.email, error: "", id: user.data.id, cookieCheck: true }
+                    payload: { firstname: user.data.firstname, email: user.data.email, error: "", category: user.data.category, id: user.data.id, cookieCheck: true }
                 })       
             }).catch(err => {
                 console.log(err);
@@ -36,7 +36,7 @@ export const keepLogin = (email) => {
             }).then(user => {
                 dispatch ({
                     type: "USER_LOGIN_SUCCESS",
-                    payload: { username: user.data.username, email: user.data.email, error: "", id: user.data.id, cookieCheck: true }
+                    payload: { firstname: user.data.firstname, email: user.data.email, category: user.data.category, error: "", id: user.data.id, cookieCheck: true }
                 })
                 dispatch ({
                     type: "COOKIES_CHECKED"
@@ -74,7 +74,7 @@ export const onRegister = (user) => {
             if (res.data.error === undefined) {
                 dispatch({
                     type: "USER_LOGIN_SUCCESS",
-                    payload: { username: res.data.username, email: res.data.email, id: res.data.id, error: "", cookieCheck: true}
+                    payload: { firstname: res.data.firstname, email: res.data.email, category: user.data.category, id: res.data.id, error: "", cookieCheck: true}
                 })
             }
             else {

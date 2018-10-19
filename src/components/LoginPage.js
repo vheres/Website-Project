@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
-
 import { onLogin } from '../actions';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import Cookies from 'universal-cookie';
-
 import img1 from '../assets/img/gallery/07.jpg';
 
 const cookies = new Cookies();
 
 class LoginPage extends Component {
     componentWillReceiveProps(newProps) {
-        if(newProps.auth.username !== "") {
+        if(newProps.auth.firstname !== "") {
             cookies.set('myCookie', newProps.auth.email, { path: '/' });
         }
     }
@@ -27,7 +24,7 @@ class LoginPage extends Component {
 
     render() {
         console.log(this.props.auth)
-        if(this.props.auth.username == "") {
+        if(this.props.auth.firstname == "") {
             return(
                 <div>
                     <Grid fluid>
