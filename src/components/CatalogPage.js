@@ -208,9 +208,8 @@ class CatalogPage extends Component {
                 </Col>
             </Row>
             <Row className="show-grid">
-                <Col xs={2}>
-                </Col>
-                <Col xs={2}>
+            <Col xsOffset={0} xs={12} lgOffset={2} lg={8}>
+                <Col xs={12} lg={3}>
                     <Row>
                         <p>Product's Name</p>
                         <input type="text" ref="searchName" class="form-control" id="inputSearchName" placeholder="Name" onKeyPress={this.onSearch.bind(this)}/>
@@ -243,8 +242,7 @@ class CatalogPage extends Component {
                         <input type="button" class="btn btn-warning" style={{width:100}} value="A P P L Y" onClick={this.onSearchClick.bind(this)}/>
                     </Row>
                 </Col>
-                <Col xs={6}>
-                    <Grid fluid>
+                <Col xs={12} lg={9}>
                         <Row className="show-grid">
                             {this.renderItemList()}
                         </Row>
@@ -254,8 +252,8 @@ class CatalogPage extends Component {
                                 <PaginationClass count={this.state.pagecount} PageClick={(page, active)=>this.onPageClick(page, active)} active={this.state.active[0]}/>
                             </Col>
                         </Row>
-                    </Grid>
                 </Col>
+            </Col> 
             </Row>
             <hr />
         </Grid>

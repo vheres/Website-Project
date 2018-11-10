@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TransactionDetail from './TransactionDetail';
 import TransactionSelect from './TransactionSelect';
 import DateClass from './DatePickerClass';
-import { Grid, Row, Col, PageHeader, Button, Table, Modal } from 'react-bootstrap';
+import { Grid, Row, Col, PageHeader, Button, Table, Modal, Panel, PanelGroup } from 'react-bootstrap';
 import { API_URL_1 } from '../supports/api-url/apiurl';
 import axios from 'axios';
 import moment from 'moment';
@@ -14,7 +14,7 @@ import { Redirect } from 'react-router-dom';
 
 
 class ProfilePage extends Component {
-    state = { profile: [], edit_modal: false, transactions: [], transaction_select: [], date: [moment().format("YYYY-MM-DD"), moment().format("YYYY-MM-DD")], selectedOption: [], destination: [], filtered_destination: []}
+    state = { profile: [], edit_modal: false, transactions: [], date: [moment().format("YYYY-MM-DD"), moment().format("YYYY-MM-DD")], selectedOption: [], destination: [], filtered_destination: [], activeKey:'1'}
 
     componentWillMount() {
         this.getUserInfo();
@@ -84,19 +84,9 @@ class ProfilePage extends Component {
         this.setState({ selectedOption:{value:this.state.profile.destination_code, label:this.state.profile.kota}, edit_modal: true });
     }
 
-    async onTransactionSelect(id) {
-        await (this.props.history.push(`/profile?transaction_id=` + id))
-        const search = this.props.location.search;
-        const params = new URLSearchParams(search);
-        const urlid = params.get('transaction_id');
-        axios.get(API_URL_1 + "/transaction_select?id=" + urlid)
-            .then(item => {
-                this.setState({ transaction_select: item.data.transaction_select })
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
+    handleSelect(activeKey) {
+        this.setState({ activeKey });
+      }
 
     onKeyPress(enter) {
         console.log(enter.which)
@@ -151,19 +141,6 @@ class ProfilePage extends Component {
             <input type="button" className="btn btn-primary" onClick={()=>this.onTransactionSelect(item.id)} value="Detail"></input>
             </TransactionDetail>
         )
-    }
-
-    renderTransactionSelect() {
-        console.log(this.state.transaction_select)
-        if (this.state.transaction_select.length === 0) {
-            return
-        }
-        else if (this.state.transaction_select.length > 0) {
-            return this.state.transaction_select.map((item, count) => {
-                return <TransactionSelect id={item.id} transaction_id={item.transaction_id} product={item.product} color={item.color} size={item.size} quantity={item.quantity} price={item.price}>
-                </TransactionSelect>
-            })
-        }
     }
 
     onDatePick() {
@@ -339,48 +316,19 @@ class ProfilePage extends Component {
                     {this.renderDatePicker()}
                 </Row>
                 <Row>
-                <Col mdOffset={2} md={4}>
+                <Col mdOffset={2} md={5}>
                         <Row>
                             <h4>Transaction History</h4>
                         </Row>          
                         <Row>
-                            <Table responsive>
-                                <thead>
-                                    <tr>
-                                        <th>Transaction Id</th>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Total Price</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.renderTransactionHistory()}
-                                </tbody>  
-                            </Table>                         
-                        </Row>
-                    </Col>
-                    <Col md={4}>
-                        <Row>
-                            <h4>Transaction Details</h4>
-                        </Row>
-                        <Row>
-                        <Table responsive>
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Transaction Id</th>
-                                    <th>Product</th>
-                                    <th>Color</th>
-                                    <th>Size</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.renderTransactionSelect()}
-                            </tbody>  
-                        </Table>   
+                        <PanelGroup
+                            accordion
+                            id="accordion-history"
+                            activeKey={this.state.activeKey}
+                            onSelect={this.handleSelect.bind(this)}
+                        >
+                        {this.renderTransactionHistory()}
+                        </PanelGroup>
                         </Row>
                     </Col>
                 </Row>  

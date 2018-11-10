@@ -24,20 +24,20 @@ class HomePage extends Component {
                     </Row>
 
                     <Row className="homepage-main-button-container">
-                        <Col xs={1}>
-                        </Col>
-                        <Col xs={5} >
-                            <Link to ="/" className="main-button-holder"><img src={pict1} style={{width:"100%"}}></img><div className="main-button-overlay"></div></Link>
-                        </Col>
-                        <Col xs={5} >
-                            <Link to ="/" className="main-button-holder"><img src={pict2} style={{width:"100%"}}></img><div className="main-button-overlay"></div></Link>
+                        <Col xsOffset={0} xs={12} mdOffset={1} md={10}>
+                            <Col xs={6} >
+                                <Link to ="/" className="main-button-holder"><img src={pict1} style={{width:"100%"}}></img><div className="main-button-overlay"></div></Link>
+                            </Col>
+                            <Col xs={6} >
+                                <Link to ="/" className="main-button-holder"><img src={pict2} style={{width:"100%"}}></img><div className="main-button-overlay"></div></Link>
+                            </Col>
                         </Col>
                     </Row>
                     <Row className="margin-top-15 margin-bottom-15">
-                        <Col xs={1}>
-                        </Col>
-                        <Col xs={10} >
-                            <Link to ="/" className="main-button-holder"><img src={pict3} style={{width:"100%"}}></img><div className="main-button-overlay"></div></Link>
+                        <Col xsOffset={0} xs={12} mdOffset={1} md={10}>
+                            <Col xs={12} >
+                                <Link to ="/" className="main-button-holder"><img src={pict3} style={{width:"100%"}}></img><div className="main-button-overlay"></div></Link>
+                            </Col>
                         </Col>
                     </Row>
                     <Row className="featured-container">

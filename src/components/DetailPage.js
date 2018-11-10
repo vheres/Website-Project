@@ -32,6 +32,7 @@ class DetailPage extends Component {
     }
 
     onAddToCartClick() {
+        var arrSize = this.refs.optionSize.value.split(',')
         if ( this.props.auth.firstname === '') {
             this.props.history.push('/login')
         }
@@ -41,7 +42,7 @@ class DetailPage extends Component {
                 id: this.props.auth.id,
                 product_id: this.state.items.id,
                 color_id: this.refs.optionColor.value[2],
-                size_id: this.refs.optionSize.value[2],
+                size_id: arrSize[1],
                 quantity: this.refs.optionQuantity.value,
                 price: price,
                 current_stock: this.state.current_stock
@@ -90,14 +91,14 @@ class DetailPage extends Component {
 
     renderProductColor = () => {
         const arrJSX = this.state.product_color.map((item, count) => {
-            return(<option value={[count, item.color_id]}>{item.color}</option>)
+            return(<option value={`${count},${item.color_id}`}>{item.color}</option>)
         })
         return arrJSX;
     }
 
     renderOptionSize = () => {
         const arrJSX = this.state.size.map((item, count) => {
-            return(<option value={[count, item.id]}>{item.name}</option>)
+            return(<option value={`${count},${item.id}`}>{item.name}</option>)
         })
         return arrJSX;
     }
@@ -113,7 +114,8 @@ class DetailPage extends Component {
     }
 
     changeSize = (temp) => {
-        this.size_pick = temp.target.value[0];
+        var arrSize = temp.target.value.split(',')
+        this.size_pick = arrSize[0];
         console.log(this.state.stock_id)
         this.select_stock();
     }
@@ -134,7 +136,6 @@ class DetailPage extends Component {
     create_stock_array() {
         stock_array = [];
         this.state.stock_id.length = 0;
-        this.setState({})
         for (var i = 0; i < this.state.color_count; i++) {
             stock_array.push(new Array());
             this.state.stock_id.push(new Array());
@@ -194,7 +195,7 @@ class DetailPage extends Component {
                                 <h4>Size</h4>
                             </Row>
                             <Row>
-                                <select ref="optionSize" class="form-control" onChange={this.changeSize} value={this.state.value}>
+                                <select id="optionSize" ref="optionSize" class="form-control" onChange={this.changeSize} value={this.state.value}>
                                     {this.renderOptionSize()}
                                 </select>
                             </Row>   

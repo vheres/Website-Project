@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, Grid, Row, Col, Button, FormControl  } from 'react-bootstrap';
+import { Image, Grid, Row, Col, Button, FormControl, Clearfix  } from 'react-bootstrap';
 
 import rick from '../assets/rick.png';
 import rick2 from '../assets/rick2.jpg';
@@ -10,9 +10,8 @@ class Footer extends Component {
         return (
             <Grid fluid className="footer-css">
                 <Row className="show-grid">
-                    <Col xs={2} >
-                    </Col>
-                    <Col xs={2} >
+                <Col xsOffset={0} xs={12} smOffset={2} sm={8} lgOffset={2} lg={8}>
+                    <Col xs={12} sm={6} lg={3}>
                         <h3>GET IN TOUCH</h3>
                         <div className="pointer"></div>
                         <p className="dark-text"><strong>Phone: 012 3456 7891</strong></p>
@@ -24,13 +23,23 @@ class Footer extends Component {
                         <i className="fa fa-twitter-square sm-icon"></i>{' '}
                         <i className="fa fa-google-plus-square sm-icon"></i>
                     </Col>
-                    <Col xs={2} >
+                    <Col xs={12} sm={6} lg={3}>
                         <h3>OUR MOBILE APP</h3>
                         <div className="pointer"></div>
-                        <img src="https://flexiloans.com/wp-content/uploads/2015/09/store-google-play.png" style={{width:"70%"}}></img>
-                        <img src="http://ctrlconsole.com/images/AppStore_Download.png" style={{width:"70%"}}></img>
+                        <Row>
+                            <Col xs={12}>
+                                <img src="https://flexiloans.com/wp-content/uploads/2015/09/store-google-play.png" style={{width:"210px"}}></img>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={12}>
+                                <img src="http://ctrlconsole.com/images/AppStore_Download.png" style={{width:"210px"}}></img>
+                            </Col>
+                        </Row>
                     </Col>
-                    <Col xs={2} >
+                    <Clearfix visibleMdBlock visibleSmBlock>
+                    </Clearfix>
+                    <Col xs={12} sm={6} lg={3}>
                         <h3>ABOUT US</h3>
                         <div className="pointer"></div>
                         <ul>
@@ -41,7 +50,7 @@ class Footer extends Component {
                             <li><a href='#' className="dark-link"><strong>Our Blog</strong></a></li>
                         </ul> 
                     </Col>
-                    <Col xs={2} >
+                    <Col xs={12} sm={6} lg={3}>
                         <h3>ACCOUNT INFO</h3>
                         <div className="pointer"></div>
                         <ul>
@@ -53,40 +62,41 @@ class Footer extends Component {
                             <li><a href='#' className="dark-link"><strong>Affiliate Program</strong></a></li>
                         </ul>
                     </Col>
+                </Col>
                 </Row>
                 <hr/>
                 <Row className="show-grid">
-                    <Col xs={2}>
-                    </Col>
-                    <Col xs={1}>
-                        <Image src="https://cdn4.iconfinder.com/data/icons/e-commerce-5/512/Credit_Card-3-512.png" responsive />
-                    </Col>
-                    <Col xs={1}>
-                        <Image src="https://cdn1.iconfinder.com/data/icons/simplicity-payment-methods/512/visa-512.png" responsive />
-                    </Col>
-                    <Col xs={1}>
-                        <Image src="https://cdn1.iconfinder.com/data/icons/simplicity-payment-methods/512/mastercard-512.png" responsive />
-                    </Col>
-                    <Col xs={1}>
-                        <Image src="https://cdn1.iconfinder.com/data/icons/simplicity-payment-methods/512/maestro-512.png" responsive />
-                    </Col>
-                    <Col xs={4}>
-                        <Grid fluid>
-                            <Row className="show-grid">
-                                <Col xs={10}>
-                                <FormControl type="email" placeholder="Email" />
-                                </Col>
-                                <Col xs={2}>
-                                <input type="button" value="SUBSCRIBE!" className="btn btn-danger"></input>
-                                </Col>
-                            </Row>
-                            <Row className="show-grid">
-                                <Col xs={12}>
-                                <br />
-                                <p>Subscribe to our Newsletter to receive early discount offers, latest news, sales and promo information.</p>
-                                </Col>
-                            </Row>
-                        </Grid>
+                    <Col xsOffset={0} xs={12} smOffset={2} sm={8}>
+                        <Col xs={3} lg={1}>
+                            <Image src="https://cdn4.iconfinder.com/data/icons/e-commerce-5/512/Credit_Card-3-512.png" style={{width: '80px'}} />
+                        </Col>
+                        <Col xs={3} lg={1}>
+                            <Image src="https://cdn1.iconfinder.com/data/icons/simplicity-payment-methods/512/visa-512.png" style={{width: '80px'}} />
+                        </Col>
+                        <Col xs={3} lg={1}>
+                            <Image src="https://cdn1.iconfinder.com/data/icons/simplicity-payment-methods/512/mastercard-512.png" style={{width: '80px'}} />
+                        </Col>
+                        <Col xs={3} lg={1}>
+                            <Image src="https://cdn1.iconfinder.com/data/icons/simplicity-payment-methods/512/maestro-512.png" style={{width: '80px'}} />
+                        </Col>
+                        <Col xsOffset={0} xs={12} lgOffset={2} lg={6}>
+                            <Grid fluid>
+                                <Row className="show-grid">
+                                    <Col xs={12} sm={10}>
+                                    <FormControl type="email" placeholder="Email" />
+                                    </Col>
+                                    <Col xs={2}>
+                                    <input type="button" value="SUBSCRIBE!" className="btn btn-danger"></input>
+                                    </Col>
+                                </Row>
+                                <Row className="show-grid">
+                                    <Col md={12}>
+                                    <br />
+                                    <p>Subscribe to our Newsletter to receive early discount offers, latest news, sales and promo information.</p>
+                                    </Col>
+                                </Row>
+                            </Grid>
+                        </Col>
                     </Col>
                 </Row>
                 </Grid>
